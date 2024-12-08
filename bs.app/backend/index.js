@@ -104,6 +104,43 @@ app.post('/register', async (req, res) => {
     }
   });
 
+// API route to handle profile update
+app.put('/profileUpdate', async (req, res) => {
+  try {
+    const { email, username, password } = req.body; // Get data from request body
+    const userId = req.session.user?._id; // Use session to identify the logged-in user
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized. Please log in.' });
+    }
+
+    // Prepare update object
+    const updateData = { username, email };
+    if (password) {
+      // Hash new password if provided
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      updateData.password = hashedPassword;
+    }
+
+    // Update the user in the database
+    await collection.findByIdAndUpdate(userId, updateData, { new: true });
+
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Send user data stored in the session to profileUpdate page
+app.get('/profileUpdate', (req, res) => {
+  if (req.session.user) {
+    res.status(200).json(req.session.user);  
+  } else {
+    res.status(401).json({ message: 'Unauthorized. Please log in.' });
+  }
+});
+
 // Start the server
 const port = 5000; // Change the port since React runs on 3000
 app.listen(port, () => {
