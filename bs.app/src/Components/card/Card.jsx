@@ -48,6 +48,9 @@ function Card({ item }) {
               +
             </button>
             <span className="counterLabel">Sets</span>
+            <button className="counterButton" onClick={handleIncrease}>
+              ✓
+            </button>
           </div>
           <div className="counter">
             <input
@@ -59,6 +62,9 @@ function Card({ item }) {
               className="inputCounter"
             />
             <span className="counterLabel">Reps</span>
+            <button className="counterButton" onClick={handleIncrease}>
+              ✓
+            </button>
           </div>
           
         </div>
