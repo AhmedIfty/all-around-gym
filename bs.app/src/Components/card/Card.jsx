@@ -138,15 +138,15 @@ export default Card;
 //             </button>
 //           </div>
 //           <div className="counter">
-//             <input
-//               type="number"
-//               value={inputValue}
-//               onChange={handleInputChange}
-//               onBlur={handleInputBlur}
-//               min="0"
-//               className="inputCounter"
-//             />
-//             <span className="counterLabel">Reps</span>
+            // <input
+            //   type="number"
+            //   value={inputValue}
+            //   onChange={handleInputChange}
+            //   onBlur={handleInputBlur}
+            //   min="0"
+            //   className="inputCounter"
+            // />
+            // <span className="counterLabel">Reps</span>
 //             <button className="counterButton" onClick={handleIncrease}>
 //               ✓
 //             </button>
