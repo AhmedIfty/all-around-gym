@@ -111,13 +111,6 @@ function ProfileUpdatePage() {
           <button type="submit">Update</button>
         </form>
       </div>
-      <div className="sideContainer">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="Avatar"
-          className="avatar"
-        />
-      </div>
     </div>
   );
   }

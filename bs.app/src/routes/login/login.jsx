@@ -26,6 +26,7 @@ function Login() {
       if (response.ok) {
         // Handle successful login, redirect to the home page
         navigate("/profile");
+        
       } else {
         // Display error message
         setErrorMessage(data.message);
