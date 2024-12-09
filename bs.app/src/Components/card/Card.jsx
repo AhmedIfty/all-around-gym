@@ -37,35 +37,52 @@ function Card({ item }) {
       console.error('Error updating exercise:', error);
     }
   };
-
+  
   return (
     <div className="card">
-      <h2>{item.exerciseName}</h2>
-      <div className="counterWithButtons">
-        <button onClick={handleDecrease}>-</button>
-        <span>{counter} Sets</span>
-        <button onClick={handleIncrease}>+</button>
-        <button onClick={handleSave}>✓</button>
+      <div className="imageContainer">
+        <img src={item.exerciseImage} alt={item.exerciseName} />
       </div>
-      <div className="counter">
-        <input
-          type="number"
-          value={inputValue}
-          onChange={(e) => setInputValue(Number(e.target.value))}
-        />
-        <span>Reps</span>
-        <button onClick={handleSave}>✓</button>
+      <div className="textContainer">
+        <h2 className="title">{item.exerciseName}</h2>
+  
+        <div className="bottom">
+          <div className="counterWithButtons">
+            <button className="counterButton" onClick={handleDecrease}>
+              -
+            </button>
+            <span className="counterValue">{counter}</span>
+            <button className="counterButton" onClick={handleIncrease}>
+              +
+            </button>
+            <span className="counterLabel">Sets</span>
+            <button className="counterButton" onClick={handleSave}>
+              ✓
+            </button>
+          </div>
+          <div className="counter">
+            <input
+              type="number"
+              value={inputValue}
+              // onChange={handleInputChange}
+              // onBlur={handleInputBlur}
+              min="0"
+              className="inputCounter"
+            />
+            <span className="counterLabel">Reps</span>
+            <button className="counterButton" onClick={handleSave}>
+              ✓
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
+  
+  
 }
 
 export default Card;
-
-
-
-
-
 
 
 
