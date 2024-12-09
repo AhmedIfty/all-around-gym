@@ -13,6 +13,8 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
       sets,
       reps,
     };
+
+    
     onSubmit(formData); // Pass data back to the parent component
     onClose(); // Close the modal after submit
   };

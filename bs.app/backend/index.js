@@ -52,6 +52,8 @@ app.post('/login', async (req, res) => {
         email: user.email
       };
 
+      req.session.userId = user._id; // Adding this line to store userId separately
+
       return res.status(200).json({ message: 'Login successful', user });
     } else {
       return res.status(400).json({ message: 'Invalid password' });
@@ -138,6 +140,103 @@ app.get('/profileUpdate', (req, res) => {
     res.status(200).json(req.session.user);  
   } else {
     res.status(401).json({ message: 'Unauthorized. Please log in.' });
+  }
+});
+
+
+app.get('/exercises', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+
+    const user = await collection.findOne({ _id: req.session.userId });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user.exercises);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to fetch exercises' });
+  }
+});
+
+
+app.post('/addExercise', async (req, res) => {
+  try {
+    const { workoutName, sets, reps } = req.body;
+    // const userId = req.session.userId; // Assuming user is authenticated and session has userId
+    const userId = req.session.user ? req.session.user._id : null;
+
+    if (!userId) {
+      console.error('No user ID found in session');
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+    
+    console.log('Adding exercise for user:', userId);
+    console.log('Received data:', { workoutName, sets, reps });
+
+    // Update the user's exercises in the database
+    const result = await collection.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          exercises: {
+            exerciseId: new Date().getTime(), // Simple unique ID for demo purposes
+            exerciseName: workoutName,
+            sets: parseInt(sets, 10),
+            reps: parseInt(reps, 10),
+          },
+        },
+      }
+    );
+
+    if (result.modifiedCount === 1) {
+      console.log('Exercise added successfully');
+      res.status(200).json({ message: 'Exercise added successfully' });
+    } else {
+      console.error('Failed to add exercise to database');
+      res.status(500).json({ message: 'Failed to add exercise' });
+    }
+  } catch (error) {
+    // console.error(error);
+    console.error('Server error while adding exercise:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+// API route to update user's exercise data
+app.put('/exercises', async (req, res) => {
+  try {
+    const { exerciseId, sets, reps } = req.body;
+    const user = req.session.user; // Assuming session contains the logged-in user info
+
+    // Find user in the database
+    const existingUser = await collection.findById(user._id);
+    if (!existingUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find if exercise already exists for this user, update it, or add new exercise data
+    const exerciseIndex = existingUser.exercises.findIndex(ex => ex.exerciseId === exerciseId);
+    if (exerciseIndex !== -1) {
+      // Update existing exercise
+      existingUser.exercises[exerciseIndex] = { exerciseId, sets, reps };
+    } else {
+      // Add new exercise data
+      existingUser.exercises.push({ exerciseId, sets, reps });
+    }
+
+    // Save updated user
+    await existingUser.save();
+    res.status(200).json({ message: 'Exercise updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

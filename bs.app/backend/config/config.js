@@ -22,7 +22,15 @@ const LoginSchema = new mongoose.Schema({
     password:{
         type: String,
         required: true
-    }
+    },
+    exercises: [
+        {
+          exerciseId: { type: Number, required: true }, // Exercise ID
+          exerciseName: { type: String, required: true }, // Exercise name
+          sets: { type: Number, required: true }, // Number of sets
+          reps: { type: Number, required: true }, // Number of reps per set
+        },
+    ],
 });
 
 // collection part , creating model

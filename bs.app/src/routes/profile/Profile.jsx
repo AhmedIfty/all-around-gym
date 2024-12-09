@@ -4,42 +4,44 @@ import List from '../../Components/list/List';
 import Map from '../../Components/map/Map';
 import Bmicalc from '../../Components/Bmi/bmi';
 import Modal from '../../Components/Modal/modal';
+
 import './Profile.scss';
 function ProfilePage() {
-  // const [userData, setUserData] = useState(null);
-  // const [error, setError] = useState("");
-
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:5000/profile', {
-  //         method: 'GET',
-  //         credentials: 'include' // Include cookies to access the session
-  //       });
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setUserData(data);  // Set user data in state
-  //       } else {
-  //         setError("Failed to fetch user data. Please log in.");
-  //       }
-  //     } catch (err) {
-  //       setError("Something went wrong. Please try again.");
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, []);
-
-  // if (error) {
-  //   return <div>{error}</div>;
-  // }
-
-  // if (!userData) {
-  //   return <div>Loading...</div>;  // Show loading state while fetching data
-  // }
-
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/profile', {
+          method: 'GET',
+          credentials: 'include' // Include cookies to access the session
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data);  // Set user data in state
+        } else {
+          setError("Failed to fetch user data. Please log in.");
+        }
+      } catch (err) {
+        setError("Something went wrong. Please try again.");
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;  // Show loading state while fetching data
+  }
+
+  
 
   const handleCreateNewPostClick = () => {
     setIsModalOpen(true);
@@ -49,10 +51,37 @@ function ProfilePage() {
     setIsModalOpen(false);
   };
 
-  const handleFormSubmit = (formData) => {
-    // Handle the form data (e.g., send it to the backend or update state)
-    console.log('Form Submitted', formData);
+  const handleFormSubmit = async (formData) => {
+    console.log('Submitting form data:', formData);
+    try {
+      const response = await fetch('http://localhost:5000/addExercise', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Include cookies to send session info
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Exercise added:', result.message);
+  
+        // // Optionally, refetch the user's exercises to update the UI
+        // fetchUserData();
+      } else {
+        console.error('Failed to add exercise');
+      }
+    } catch (error) {
+      console.error('Error submitting exercise:', error);
+    }
   };
+  
+
+  // const handleFormSubmit = (formData) => {
+  //   // Handle the form data (e.g., send it to the backend or update state)
+  //   console.log('Form Submitted', formData);
+  // };
 
   return (
     <div className="profilePage">
@@ -70,12 +99,12 @@ function ProfilePage() {
                 alt=""
               />
             </span>
-            {/* <span>
+            <span>
               Username: <b>{userData.username}</b>
             </span>
             <span>
               E-mail: <b>{userData.email}</b>
-            </span> */}
+            </span>
           </div>
           <Bmicalc />
           <div className="title">

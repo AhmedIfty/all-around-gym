@@ -1,15 +1,62 @@
-import './list.scss'
-import Card from"../card/Card"
-import {listData} from"../../lib/dummydata"
+import React, { useEffect, useState } from 'react';
+import './list.scss';
+import Card from '../card/Card';
 
-function List(){
+function List() {
+  const [exercises, setExercises] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/exercises', {
+          method: 'GET',
+          credentials: 'include', // Include cookies to access the session
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setExercises(data);
+        } else {
+          setError("Failed to fetch exercises. Please log in.");
+        }
+      } catch (err) {
+        setError("Something went wrong. Please try again.");
+      }
+    };
+
+    fetchExercises();
+  }, []);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-    <div className='list'>
-      {listData.map(item=>(
-        <Card key={item.id} item={item}/>
+    <div className="list">
+      {exercises.map((exercise) => (
+        <Card key={exercise.exerciseId} item={exercise} />
       ))}
     </div>
-  )
+  );
 }
 
-export default List
+export default List;
+
+
+
+// import './list.scss'
+// import Card from"../card/Card"
+// import {listData} from"../../lib/dummydata"
+
+// function List(){
+//   return (
+//     <div className='list'>
+//       {listData.map(item=>(
+//         <Card key={item.id} item={item}/>
+//       ))}
+//     </div>
+//   )
+// }
+
+// export default List
