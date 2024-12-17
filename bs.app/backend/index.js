@@ -240,6 +240,15 @@ app.put('/exercises', async (req, res) => {
   }
 });
 
+app.get('/checkLogin', (req, res) => {
+  if (req.session.user) {
+    res.status(200).json({ loggedIn: true });
+  } else {
+    res.status(200).json({ loggedIn: false });
+  }
+});
+
+
 // Start the server
 const port = 5000; // Change the port since React runs on 3000
 app.listen(port, () => {

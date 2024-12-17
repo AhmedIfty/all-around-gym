@@ -37,16 +37,15 @@ function Card({ item }) {
       console.error('Error updating exercise:', error);
     }
   };
-
+  
   return (
     <div className="card">
-      {/* <Link to={`/${item.id}`} className="imageContainer">
-        <img src={item.img} alt="" />
-      </Link> */}
+      <div className="imageContainer">
+        <img src={item.exerciseImage} alt={item.exerciseName} />
+      </div>
       <div className="textContainer">
-        <h2 className="title">
-          {item.exerciseName}
-        </h2>
+        <h2 className="title">{item.exerciseName}</h2>
+  
         <div className="bottom">
           <div className="counterWithButtons">
             <button className="counterButton" onClick={handleDecrease}>
@@ -56,7 +55,7 @@ function Card({ item }) {
             <button className="counterButton" onClick={handleIncrease}>
               +
             </button>
-            <span className="counterLabel">Sets</span>       
+            <span className="counterLabel">Sets</span>
             <button className="counterButton" onClick={handleSave}>
               ✓
             </button>
@@ -76,14 +75,11 @@ function Card({ item }) {
       </div>
     </div>
   );
+  
+  
 }
 
 export default Card;
-
-
-
-
-
 
 
 
