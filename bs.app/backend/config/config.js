@@ -1,39 +1,66 @@
 const mongoose = require("mongoose");
+
+// Connect to MongoDB
 const connect = mongoose.connect("mongodb://localhost:27017/bs");
 
-// check db connected or not
-connect.then(() => {
-    console.log("Database connected Successfully");
-})
-.catch(() => {
-    console.log("Database not connected ");
-})
+// Check if the database is connected or not
+connect
+    .then(() => {
+        console.log("Database connected Successfully");
+    })
+    .catch((err) => {
+        console.error("Database not connected:", err.message);
+    });
 
-//creating a schema
-const LoginSchema = new mongoose.Schema({
-    email:{
+    // Create a schema for users
+    const LoginSchema = new mongoose.Schema({
+    email: {
         type: String,
-        required: true
+        required: true,
     },
-    username:{
+    username: {
         type: String,
-        required: true
+        required: true,
     },
-    password:{
+    password: {
         type: String,
-        required: true
+        required: true,
     },
     exercises: [
         {
-          exerciseId: { type: Number, required: true }, // Exercise ID
-          exerciseName: { type: String, required: true }, // Exercise name
-          sets: { type: Number, required: true }, // Number of sets
-          reps: { type: Number, required: true }, // Number of reps per set
+        exerciseId: { type: Number, required: true }, // Exercise ID
+        exerciseName: { type: String, required: true }, // Exercise name
+        sets: { type: Number, required: true }, // Number of sets
+        reps: { type: Number, required: true }, // Number of reps per set
         },
     ],
-});
+    });
 
-// collection part , creating model
-const collection = new mongoose.model("users", LoginSchema);
+// Create a collection model
+const UserModel = mongoose.model("users", LoginSchema);
 
-module.exports = collection;
+// Function to search users or exercises by search term
+const searchUsers = async (searchTerm) => {
+    try {
+        const regex = new RegExp(searchTerm, "i"); // Case-insensitive regex for search
+        const results = await UserModel.find({
+        $or: [
+            { username: regex }, // Search in usernames
+            { email: regex }, // Search in emails
+            { "exercises.exerciseName": regex }, // Search in exercise names
+        ],
+        });
+
+        return results;
+    } catch (error) {
+        console.error("Error during search:", error);
+        throw error; // Throw error for handling in routes
+    }
+    };
+
+    // Export the model and search function
+    module.exports = {
+    UserModel,
+    searchUsers,
+    };
+
