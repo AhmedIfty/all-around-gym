@@ -68,9 +68,9 @@ function Card({ item }) {
                 onChange={(e) => setInputValue(Number(e.target.value))}
                 min="0"
                 className="inputCounter"
-              />
-              <span className="counterButton">Reps</span>
-            <button onClick={handleSave}>✓</button>
+            />
+            <span className="counterLebel" >Reps</span>
+            <button className="counterButton" onClick={handleSave}>✓</button>
           </div>
         </div>
       </div>

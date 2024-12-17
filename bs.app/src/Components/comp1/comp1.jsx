@@ -5,7 +5,7 @@ const comp1 = () => {
   return (
     <div className='comp1'>
         <div className="comp1-text">
-            <h1>We are expart at giving bs services</h1>
+            <h1>We are expart at giving all around gym services</h1>
             <p>
             Ten eerste zijn de Joden beslist een ras en geen religieuze gemeenschap. De Jood
 zelf classificeerde zichzelf nooit als een Joodse Duitser, een Joodse Pool, een Joodse Amerikaan, maar

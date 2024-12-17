@@ -3,7 +3,7 @@ import './Navbar.scss';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-    const user = true;
+    const user = false;
     const [scrolled, setScrolled] = useState(false);
 
     const handleScroll = () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
             <div className='left'>
                 <a href="/" className="logo">
                 <img src="/logo.png" alt="" />
-                <span>BS Services</span>
+                <span>All around gym</span>
                 </a>
             </div>
             <div className='right'>
