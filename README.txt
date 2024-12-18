@@ -1,3 +1,6 @@
+github:
+https://github.com/AhmedIfty/CSE471_project.git
+
 install this in bs.app
 npm install react-leaflet leaflet
 

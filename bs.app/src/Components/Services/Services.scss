@@ -10,6 +10,36 @@
     .service{
         flex-basis: 31%;
         position: relative;
+        background: rgb(196, 231, 195);
+        border-radius: 10px 10px 10px 10px;
+
+        .service-header {
+            background: black;
+            align-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px;
+            width: 120px;
+            border-radius: 10px 10px 10px 10px;
+        }
+        .service-body {
+            padding: 20px 10px;
+    
+            h3 {
+              font-size: 2rem;
+              margin: 15px 0;
+            }
+    
+            ul {
+              list-style: none;
+              padding: 0;
+    
+              li {
+                margin: 10px 0;
+              }
+            }
+        }
 
         &:hover{
             .caption{
