@@ -73,6 +73,43 @@ nav {
             scale: 1.05;
           }
         }
+        .dropdown {
+          position: absolute;
+          top: 80px; // Position dropdown below the avatar
+          right: 110; // Align dropdown to the left
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+          width: 110px; // Set dropdown width
+          display: flex;
+          flex-direction: column;
+  
+          // Triangle arrow pointing to the top-left
+          &::before {
+              content: '';
+              position: absolute;
+              top: -10px; // Position above the dropdown
+              left: 10px; // Align to the left
+              border-width: 0 10px 10px 10px; // Triangle size
+              border-style: solid;
+              border-color: transparent transparent #fff transparent; // Triangle color
+          }
+  
+          .dropdown-item {
+              padding: 10px 15px;
+              cursor: pointer;
+              text-align: center;
+              color: #333;
+              text-decoration: none;
+              transition: background-color 0.2s;
+  
+              &:hover {
+                background-color: #f0f0f0;
+            }
+          }
+        }
       }
 
       ul {
