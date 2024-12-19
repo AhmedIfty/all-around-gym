@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./login.scss";
+import "./adminLogin.scss";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("http://localhost:5000/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,8 +57,8 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Login</button>
-          <Link to="/register">Already have an account?</Link>
-          <Link to="/adminLogin">Login as an admin?</Link>
+          
+          <Link to="/login">Login as a user?</Link>
         </form>
       </div>
       <div className="imgContainer">
@@ -68,29 +68,4 @@ function Login() {
   );
 }
 
-export default Login;
-
-
-// import "./login.scss";
-// import { Link } from "react-router-dom";
-
-// function Login() {
-//   return (
-//     <div className="login">
-//       <div className="formContainer">
-//         <form>
-//           <h1>Welcome back</h1>
-//           <input name="username" type="text" placeholder="Username" />
-//           <input name="password" type="password" placeholder="Password" />
-//           <button>Login</button>
-//           <Link to="/register">{"Don't"} you have an account?</Link>
-//         </form>
-//       </div>
-//       <div className="imgContainer">
-//         <img src="/bg.png" alt="" />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Login;
+export default AdminLogin;

@@ -89,6 +89,52 @@ app.get('/profile', (req, res) => {
 });
 
 
+
+// Admin login route
+app.post('/admin/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const admin = await User.findOne({ email, role: 'admin' });
+
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, admin.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Store admin session
+    req.session.user = {
+      id: admin._id,
+      username: admin.username,
+      role: admin.role,
+    };
+
+    res.status(200).json({ message: 'Login successful', admin: req.session.user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Middleware to check if admin
+const isAdmin = (req, res, next) => {
+  if (req.session.user && req.session.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Access denied. Admins only.' });
+  }
+};
+
+// Example protected admin route
+app.get('/admin/dashboard', isAdmin, (req, res) => {
+  res.json({ message: 'Welcome to the admin dashboard!' });
+});
+
+
+
 // New Search API Endpoint
 app.get('/search', async (req, res) => {
   try {
