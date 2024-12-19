@@ -66,7 +66,7 @@ const Navbar = () => {
                     <img src="/logo.png" alt="" />
                     <span>BS Services</span>
                 </a>
-                <SearchBar onSearch={handleSearch} />
+                {/* <SearchBar onSearch={handleSearch} /> */}
             </div>
             <div className='right'>
                 {user ? (

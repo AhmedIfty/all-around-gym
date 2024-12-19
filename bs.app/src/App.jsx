@@ -5,6 +5,8 @@ import Profile from './routes/profile/Profile';
 import Register from './routes/register/Register';
 import Login from './routes/login/login';
 import ProfileUpdatePage from './routes/profileUpdate/profileUpdate';
+import ListPage from './routes/listPage/listPage';
+import SinglePage from './routes/singlePage/singlePage';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -19,6 +21,14 @@ const App = () => {
         {
           path: "/",
           element: <Homepage/>
+        },
+        {
+          path:"/list",
+          element:<ListPage/>
+        },
+        {
+          path:"/:id",
+          element:<SinglePage/>
         },
         {
           path: "/profile",
