@@ -25,6 +25,18 @@ app.use(session({
   cookie: { secure: false } 
 }));
 
+app.delete('/exercises', async (req, res) => {
+  try {
+    const user = await UserModel.findOneAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.send('Exercise deleted');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 // API endpoint for user login
 app.post('/login', async (req, res) => {
   try {

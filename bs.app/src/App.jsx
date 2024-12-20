@@ -1,4 +1,5 @@
 import React from 'react'
+import AdminLogin from './routes/adminLogin/adminLogin';
 import Homepage from './routes/homepage/Homepage'
 import Layout from './routes/layout/Layout'
 import Profile from './routes/profile/Profile';
@@ -41,6 +42,10 @@ const App = () => {
         {
           path: "/login",
           element: <Login/>
+        },
+        {
+          path: "/adminLogin",
+          element: <AdminLogin/>
         },
         {
           path: "/ProfileUpdatePage",

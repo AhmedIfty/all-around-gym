@@ -58,7 +58,7 @@ function Login() {
           />
           <button type="submit">Login</button>
           <Link to="/register">Already have an account?</Link>
-          <Link to="/adminLogin">Login as an admin?</Link>
+          <Link to="/AdminLogin">Login as an admin?</Link>
         </form>
       </div>
       <div className="imgContainer">

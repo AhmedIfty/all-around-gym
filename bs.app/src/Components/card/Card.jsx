@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./card.scss";
+import { deleteModel } from "mongoose";
+import axios from 'axios';
 
-
-function Card({ item }) {
+const Card = ({ userId, item }) => {
   const [counter, setCounter] = useState(item.sets || 0);
   const [inputValue, setInputValue] = useState(item.reps || 0);
 
@@ -37,7 +38,15 @@ function Card({ item }) {
       console.error('Error updating exercise:', error);
     }
   };
-  
+  const deleteExercise = async (userId, item) => {
+    try {
+      await axios.delete(`http://localhost:3000/exercises/${item.exerciseId}`);
+      alert('Exercise deleted');
+
+    } catch (error) {
+      console.error('There was an error deleting the exercise!', error);
+    }
+  };
   return (
     <div className="card">
       <div className="imageContainer">
@@ -45,7 +54,9 @@ function Card({ item }) {
       </div>
       <div className="textContainer">
         <h2 className="title">{item.exerciseName}</h2>
-  
+        <div className="Middle">
+          <button className="counterButton1" onClick={() => deleteExercise(userId, item.exerciseId)}>X</button>
+        </div>
         <div className="bottom">
           <div className="counterWithButtons">
             <button className="counterButton" onClick={handleDecrease}>

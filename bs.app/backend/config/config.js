@@ -39,7 +39,7 @@ connect
             exerciseName: { type: String, required: true },
             sets: { type: Number, required: true },
             reps: { type: Number, required: true },
-            exerciseImage: { type: String, required: false },
+            exerciseImage: { type: String, },
           },
         ],
         subscriptions: [
