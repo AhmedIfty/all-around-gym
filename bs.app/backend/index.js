@@ -25,12 +25,23 @@ app.use(session({
   cookie: { secure: false } 
 }));
 
-app.delete('/exercises', async (req, res) => {
+
+app.delete('/', async (req, res) => {
   try {
-    const user = await UserModel.findOneAndDelete(req.params.id);
+    const { exerciseId } = req.params;
+    const user = await UserModel.findById(exerciseId);
     if (!user) {
       return res.status(404).send('User not found');
     }
+
+    const exerciseIndex = user.exercises.findIndex(ex => ex._id.toString() === exerciseId);
+    if (exerciseIndex === -1) {
+      return res.status(404).send('Exercise not found');
+    }
+
+    user.exercises.splice(exerciseIndex, 1);
+    await user.save();
+
     res.send('Exercise deleted');
   } catch (error) {
     res.status(500).send(error.message);
