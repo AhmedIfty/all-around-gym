@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cors = require('cors'); // To handle cross-origin requests
 const { UserModel, searchUsers } = require('./config/config'); // Correct import
+const { GymModel } = require('./config/config'); // Import Gym model
 
 const app = express();
 const saltRounds = 10;
@@ -266,6 +267,19 @@ app.post('/addExercise', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// API to fetch gym data
+app.get('/api/gyms', async (req, res) => {
+  try {
+    const gyms = await GymModel.find(); // Fetch gyms without references
+    res.status(200).json(gyms);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching gyms' });
+  }
+});
+
+
 
 // Check login status
 app.get('/checkLogin', (req, res) => {

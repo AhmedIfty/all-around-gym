@@ -74,8 +74,44 @@ const UserSchema = new mongoose.Schema({
     ],
   });
 
+// Define the Gym schema
+const GymSchema = new mongoose.Schema({
+  gymId: {
+    type: Number,
+    required: true,
+    unique: true, // Ensures that each gym has a unique ID
+  },
+  name: {
+    type: String,
+    required: true, // Gym name is required
+  },
+  location: {
+    type: String,
+    required: true, // Gym location is required
+  },
+  description: {
+    type: String,
+    required: false, // Gym description is optional
+  },
+  facilities: [
+    {
+      type: String, // List of facilities the gym offers
+    },
+  ],
+  subscriptionFee: {
+    type: Number, // Monthly subscription fee
+    required: true,
+  },
+  gymImage: {
+    type: String, // Link to gym image (optional)
+    required: false, // Gym image is optional
+  },
+});
 // Create a collection model
 const UserModel = mongoose.model("users", UserSchema);
+
+// Create a Gym model from the schema
+const GymModel = mongoose.model('Gym', GymSchema);
 
 // Function to search users or exercises by search term
 const searchUsers = async (searchTerm) => {
@@ -100,4 +136,5 @@ const searchUsers = async (searchTerm) => {
 module.exports = {
     UserModel,
     searchUsers,
+    GymModel,
 };
