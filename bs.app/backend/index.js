@@ -25,16 +25,16 @@ app.use(session({
   cookie: { secure: false } 
 }));
 
-
-app.delete('/', async (req, res) => {
+// DELETE exercise by ID
+app.delete('/exercises/:exerciseId', async (req, res) => {
   try {
     const { exerciseId } = req.params;
-    const user = await UserModel.findById(exerciseId);
+    const user = await UserModel.findOne({ _id: req.session.userId });
     if (!user) {
       return res.status(404).send('User not found');
     }
 
-    const exerciseIndex = user.exercises.findIndex(ex => ex._id.toString() === exerciseId);
+    const exerciseIndex = user.exercises.findIndex(ex => ex.exerciseId.toString() === exerciseId);
     if (exerciseIndex === -1) {
       return res.status(404).send('Exercise not found');
     }
@@ -47,6 +47,7 @@ app.delete('/', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
 
 // API endpoint for user login
 app.post('/login', async (req, res) => {

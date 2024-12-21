@@ -31,9 +31,15 @@ function List() {
 
   const deleteExercise = async (exerciseId) => {
     try {
-      const response = await delete(`http://localhost:5000/exercises/${exerciseId}`);
-      alert('Exercise deleted');
-      setExercises(exercises.filter(exercise => exercise.exerciseId !== exerciseId));
+      const response = await axios.delete(`http://localhost:5000/exercises/${exerciseId}`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        setExercises(exercises.filter(exercise => exercise.exerciseId !== exerciseId));
+      } else {
+        console.error('Failed to delete exercise');
+      }
     } catch (error) {
       console.error('There was an error deleting the exercise!', error);
     }
