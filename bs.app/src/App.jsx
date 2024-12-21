@@ -8,6 +8,7 @@ import Login from './routes/login/login';
 import ProfileUpdatePage from './routes/profileUpdate/profileUpdate';
 import ListPage from './routes/listPage/listPage';
 import SinglePage from './routes/singlePage/singlePage';
+import TrainerProfile from './routes/trainer_profile/trainer_profile';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -50,6 +51,10 @@ const App = () => {
         {
           path: "/ProfileUpdatePage",
           element: <ProfileUpdatePage/>
+        },
+        {
+          path: "/TrainerProfile",
+          element: <TrainerProfile/>
         }
       ]
     }

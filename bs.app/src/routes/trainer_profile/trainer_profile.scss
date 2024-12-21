@@ -1,0 +1,59 @@
+.profilePage {
+  display: flex;
+  height: 100%;
+  margin-top: 8%;
+  margin-left: 2%;
+  margin-right: 2%;
+
+  
+
+  .details {
+    flex: 3;
+    overflow-y: scroll;
+    padding-bottom: 50px;
+
+    
+    .wrapper{
+      padding-right: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+
+      .title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h1{
+          font-weight: 300;
+        }
+
+        button{
+          padding: 12px 24px;
+          background-color: rgb(196, 231, 195);
+          cursor: pointer;
+          border: none;
+        }
+      }
+
+      .info{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        span{
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        img{
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
