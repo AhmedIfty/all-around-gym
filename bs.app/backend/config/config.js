@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-const connect = mongoose.connect("mongodb://localhost:27017/bs");
+const connect = mongoose.connect("mongodb://locahost:27017/bs");
 
 // Check if the database is connected or not
 connect
