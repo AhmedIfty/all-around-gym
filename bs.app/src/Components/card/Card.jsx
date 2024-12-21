@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./card.scss";
 
 
-function Card({ item }) {
+const Card = ({ item, deleteExercise  }) => {
   const [counter, setCounter] = useState(item.sets || 0);
   const [inputValue, setInputValue] = useState(item.reps || 0);
 
@@ -37,7 +37,7 @@ function Card({ item }) {
       console.error('Error updating exercise:', error);
     }
   };
-  
+
   return (
     <div className="card">
       <div className="imageContainer">
@@ -45,7 +45,9 @@ function Card({ item }) {
       </div>
       <div className="textContainer">
         <h2 className="title">{item.exerciseName}</h2>
-  
+        <div className="Middle">
+          <button className="counterButton1" onClick={() => deleteExercise(item.exerciseId)}>X</button>
+        </div>
         <div className="bottom">
           <div className="counterWithButtons">
             <button className="counterButton" onClick={handleDecrease}>

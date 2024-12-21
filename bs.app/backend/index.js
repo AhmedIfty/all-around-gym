@@ -25,6 +25,30 @@ app.use(session({
   cookie: { secure: false } 
 }));
 
+// DELETE exercise by ID
+app.delete('/exercises/:exerciseId', async (req, res) => {
+  try {
+    const { exerciseId } = req.params;
+    const user = await UserModel.findOne({ _id: req.session.userId });
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const exerciseIndex = user.exercises.findIndex(ex => ex.exerciseId.toString() === exerciseId);
+    if (exerciseIndex === -1) {
+      return res.status(404).send('Exercise not found');
+    }
+
+    user.exercises.splice(exerciseIndex, 1);
+    await user.save();
+
+    res.send('Exercise deleted');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+
 // API endpoint for user login
 app.post('/login', async (req, res) => {
   try {
@@ -87,6 +111,52 @@ app.get('/profile', (req, res) => {
       return res.status(401).json({ message: 'Unauthorized. Please log in.' });
   }
 });
+
+
+
+// Admin login route
+app.post('/admin/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const admin = await User.findOne({ email, role: 'admin' });
+
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, admin.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Store admin session
+    req.session.user = {
+      id: admin._id,
+      username: admin.username,
+      role: admin.role,
+    };
+
+    res.status(200).json({ message: 'Login successful', admin: req.session.user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Middleware to check if admin
+const isAdmin = (req, res, next) => {
+  if (req.session.user && req.session.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Access denied. Admins only.' });
+  }
+};
+
+// Example protected admin route
+app.get('/admin/dashboard', isAdmin, (req, res) => {
+  res.json({ message: 'Welcome to the admin dashboard!' });
+});
+
 
 
 // New Search API Endpoint

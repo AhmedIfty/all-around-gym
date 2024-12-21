@@ -1,10 +1,13 @@
 import React from 'react'
+import AdminLogin from './routes/adminLogin/adminLogin';
 import Homepage from './routes/homepage/Homepage'
 import Layout from './routes/layout/Layout'
 import Profile from './routes/profile/Profile';
 import Register from './routes/register/Register';
 import Login from './routes/login/login';
 import ProfileUpdatePage from './routes/profileUpdate/profileUpdate';
+import ListPage from './routes/listPage/listPage';
+import SinglePage from './routes/singlePage/singlePage';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -21,6 +24,14 @@ const App = () => {
           element: <Homepage/>
         },
         {
+          path:"/list",
+          element:<ListPage/>
+        },
+        {
+          path:"/:id",
+          element:<SinglePage/>
+        },
+        {
           path: "/profile",
           element: <Profile/>
         },
@@ -31,6 +42,10 @@ const App = () => {
         {
           path: "/login",
           element: <Login/>
+        },
+        {
+          path: "/adminLogin",
+          element: <AdminLogin/>
         },
         {
           path: "/ProfileUpdatePage",

@@ -57,7 +57,8 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Login</button>
-          <Link to="/register">{"Don't"} you have an account?</Link>
+          <Link to="/register">Already have an account?</Link>
+          <Link to="/AdminLogin">Login as an admin?</Link>
         </form>
       </div>
       <div className="imgContainer">

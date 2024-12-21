@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './list.scss';
 import Card from '../card/Card';
+import axios from 'axios';
 
 function List() {
   const [exercises, setExercises] = useState([]);
@@ -28,6 +29,22 @@ function List() {
     fetchExercises();
   }, []);
 
+  const deleteExercise = async (exerciseId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/exercises/${exerciseId}`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        setExercises(exercises.filter(exercise => exercise.exerciseId !== exerciseId));
+      } else {
+        console.error('Failed to delete exercise');
+      }
+    } catch (error) {
+      console.error('There was an error deleting the exercise!', error);
+    }
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -35,7 +52,7 @@ function List() {
   return (
     <div className="list">
       {exercises.map((exercise) => (
-        <Card key={exercise.exerciseId} item={exercise} />
+        <Card key={exercise.exerciseId} item={exercise} deleteExercise={deleteExercise} />
       ))}
     </div>
   );
