@@ -168,16 +168,9 @@ app.get('/search', async (req, res) => {
       return res.status(400).json({ message: 'Search term is required' });
     }
 
-    const regex = new RegExp(searchTerm, 'i');
-    const results = await UserModel.find({
-      $or: [
-        { username: regex },
-        { email: regex },
-        { 'exercises.exerciseName': regex }
-      ]
-    });
+    const results = await searchUsers(searchTerm);
 
-    if (results.length > 0) {
+    if (results.users.length > 0 || results.gyms.length > 0) {
       return res.status(200).json(results);
     } else {
       return res.status(404).json({ message: 'No matching results found' });

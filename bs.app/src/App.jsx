@@ -9,6 +9,7 @@ import ProfileUpdatePage from './routes/profileUpdate/profileUpdate';
 import ListPage from './routes/listPage/listPage';
 import SinglePage from './routes/singlePage/singlePage';
 import TrainerProfile from './routes/trainer_profile/trainer_profile';
+import Searchtest from './routes/searchtest/searchtest';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -59,6 +60,10 @@ const App = () => {
         {
           path: "/TrainerProfile",
           element: <TrainerProfile/>
+        },
+        {
+          path: "/searchtest",
+          element: <Searchtest/>
         }
       ]
     }

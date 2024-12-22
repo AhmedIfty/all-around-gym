@@ -115,21 +115,39 @@ const GymModel = mongoose.model('Gym', GymSchema);
 
 // Function to search users or exercises by search term
 const searchUsers = async (searchTerm) => {
-    try {
-        const regex = new RegExp(searchTerm, "i"); // Case-insensitive regex for search
-        const results = await UserModel.find({
-        $or: [
-            { username: regex }, // Search in usernames
-            { email: regex }, // Search in emails
-            { "exercises.exerciseName": regex }, // Search in exercise names
-        ],
-        });
+  try {
+      const regex = new RegExp(searchTerm, "i"); // Case-insensitive regex for search
 
-        return results;
-    } catch (error) {
-        console.error("Error during search:", error);
-        throw error; // Throw error for handling in routes
-    }
+      // Search in UserModel
+      const userResults = await UserModel.find({
+          $or: [
+              { username: regex }, // Search in usernames
+              { email: regex }, // Search in emails
+              { "exercises.exerciseName": regex }, // Search in exercise names
+          ],
+      });
+
+      // Search in GymModel
+      const gymResults = await GymModel.find({
+          $or: [
+              { name: regex }, // Search in gym names
+              { location: regex }, // Search in gym locations
+              { description: regex }, // Search in gym descriptions
+              { facilities: regex }, // Search in gym facilities
+          ],
+      });
+
+      // Combine results
+      const results = {
+          users: userResults,
+          gyms: gymResults,
+      };
+
+      return results;
+  } catch (error) {
+      console.error("Error during search:", error);
+      throw error; // Throw error for handling in routes
+  }
 };
 
 // Export the model and search function
