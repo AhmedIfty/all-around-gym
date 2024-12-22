@@ -28,8 +28,12 @@ const App = () => {
           path:"/list",
           element:<ListPage/>
         },
+        // {
+        //   path:"/:id",
+        //   element:<SinglePage/>
+        // },
         {
-          path:"/:id",
+          path:"/gym/:id", // Updated path to include "/gym/"
           element:<SinglePage/>
         },
         {

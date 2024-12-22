@@ -281,6 +281,21 @@ app.get('/api/gyms', async (req, res) => {
 
 
 
+// Backend Route to Fetch Single Gym
+app.get('/api/gyms/:id', async (req, res) => {
+  try {
+    const gym = await GymModel.findOne({ gymId: req.params.id });
+    if (!gym) {
+      return res.status(404).json({ message: 'Gym not found' });
+    }
+    res.status(200).json(gym);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching gym details' });
+  }
+});
+
+
 // Check login status
 app.get('/checkLogin', (req, res) => {
   if (req.session.user) {
