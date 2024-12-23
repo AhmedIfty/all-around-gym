@@ -1,7 +1,19 @@
 import { Link } from "react-router-dom";
 import "./card2.scss";
 
-function Card2({ item }) {
+const getSubscriptionType = (fee) => {
+  if (fee <= 50) return 'Basic';
+  if (fee <= 100) return 'Advanced';
+  return 'Pro';
+};
+
+const Card2 = ({ item, selectedSubscriptionType }) => {
+  const subscriptionType = getSubscriptionType(item.subscriptionFee);
+
+  if (selectedSubscriptionType && subscriptionType !== selectedSubscriptionType) {
+    return null; // Do not render the card if it doesn't match the selected subscription type
+  }
+
   return (
     <div className="card">
       {/* Gym Image */}
@@ -17,13 +29,13 @@ function Card2({ item }) {
 
         {/* Address */}
         <p className="address">
-          {/* <img src="/pin.png" alt="Location Pin" /> */}
           <img src="https://media.istockphoto.com/id/1148705812/vector/location-icon-vector-pin-sign-isolated-on-white-background-navigation-map-gps-direction.jpg?s=612x612&w=0&k=20&c=lqEIzW3QedZfytsX30NoBJbHxZZbWnlLsvEiwOSbaow=" alt="Location Pin" />
           <span>{item.location}</span>
         </p>
 
-        {/* Subscription Fee */}
-        <p className="price">$ {item.subscriptionFee} / month</p>
+        {/* Subscription Type */}
+        <p className="subscriptionType"><strong>Subscription Type:</strong> {subscriptionType}</p>
+        <p className="price"><strong>Subscription Fee:</strong> ${item.subscriptionFee}</p>
 
         {/* Facilities */}
         <div className="bottom">
@@ -38,11 +50,9 @@ function Card2({ item }) {
       </div>
     </div>
   );
-}
+};
 
 export default Card2;
-
-
 
 // import { Link } from "react-router-dom";
 // import "./card2.scss";

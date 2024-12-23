@@ -324,7 +324,28 @@ app.get('/api/gyms/:id', async (req, res) => {
     res.status(500).json({ message: 'Error fetching gym details' });
   }
 });
+app.get('/api/gyms', async (req, res) => {
+  try {
+    const { subscriptionType } = req.query;
+    const query = {};
 
+    if (subscriptionType) {
+      if (subscriptionType === 'Basic') {
+        query.subscriptionFee = { $lte: 50 };
+      } else if (subscriptionType === 'Advanced') {
+        query.subscriptionFee = { $gt: 50, $lte: 100 };
+      } else if (subscriptionType === 'Pro') {
+        query.subscriptionFee = { $gt: 100 };
+      }
+    }
+
+    const gyms = await GymModel.find(query);
+    res.json(gyms);
+  } catch (error) {
+    console.error('Error fetching gyms:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Check login status
 app.get('/checkLogin', (req, res) => {

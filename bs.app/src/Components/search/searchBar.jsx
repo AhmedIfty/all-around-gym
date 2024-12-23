@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 const SearchBar = () => {
   const [filters, setFilters] = useState({
     searchTerm: '',
-    maxPrice: '',
-    bedroom: '',
   });
   const [results, setResults] = useState([]);
 
@@ -42,28 +40,6 @@ const SearchBar = () => {
               placeholder="Search..."
             />
           </div>
-          <div className="item">
-            <label htmlFor="maxPrice">Max Price</label>
-            <input
-              type="number"
-              id="maxPrice"
-              name="maxPrice"
-              value={filters.maxPrice}
-              onChange={handleFilterChange}
-              placeholder="Any"
-            />
-          </div>
-          <div className="item">
-            <label htmlFor="bedroom">Bedrooms</label>
-            <input
-              type="number"
-              id="bedroom"
-              name="bedroom"
-              value={filters.bedroom}
-              onChange={handleFilterChange}
-              placeholder="Any"
-            />
-          </div>
         </div>
         <button type="submit" className="search-button">Search</button>
       </form>
@@ -93,6 +69,11 @@ const SearchBar = () => {
                   <p><strong>Location:</strong> {item.location || 'No location'}</p>
                   <p><strong>Description:</strong> {item.description || 'No description'}</p>
                   <p><strong>Facilities:</strong> {item.facilities.join(', ') || 'No facilities'}</p>
+                  {item.gymImage && (
+                    <div>
+                      <img src={item.gymImage} alt={item.name} style={{ width: '100%', height: 'auto' }} />
+                    </div>
+                  )}
                 </div>
               )}
             </div>

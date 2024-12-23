@@ -10,12 +10,15 @@ function ListPage() {
   const [gyms, setGyms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({});
 
-  // Fetch gym data from the backend when the component mounts
+  // Fetch gym data from the backend when the component mounts or filters change
   useEffect(() => {
     const fetchGyms = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/gyms");
+        const response = await axios.get("http://localhost:5000/api/gyms", {
+          params: filters,
+        });
         setGyms(response.data); // Set the gym data to the state
       } catch (err) {
         setError("Error fetching gym data");
@@ -25,7 +28,7 @@ function ListPage() {
     };
 
     fetchGyms();
-  }, []);
+  }, [filters]);
 
   // Handle loading and error states
   if (loading) {
@@ -36,13 +39,17 @@ function ListPage() {
     return <div>{error}</div>;
   }
 
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
   return (
     <div className="listPage">
       <div className="listContainer">
         <div className="wrapper">
-          <Filter />
+          <Filter onFilterChange={handleFilterChange} />
           {gyms.map((gym) => (
-            <Card2 key={gym.gymId} item={gym} /> // Pass each gym to Card2 component
+            <Card2 key={gym._id} item={gym} selectedSubscriptionType={filters.subscriptionType} /> // Pass selected subscription type to Card2 component
           ))}
         </div>
       </div>
