@@ -330,17 +330,27 @@ app.post('/addExercise', async (req, res) => {
   }
 });
 
-// API to fetch gym data
+
+// API to fetch gym data with filters
 app.get('/api/gyms', async (req, res) => {
   try {
-    const gyms = await GymModel.find(); // Fetch gyms without references
+    const { subscriptionType } = req.query; // Extract subscriptionType from query parameters
+
+    let query = {};
+
+    // Apply filter if a subscriptionType is provided
+    if (subscriptionType && subscriptionType !== "Any") {
+      query.planType = subscriptionType; // Filter gyms by planType
+    }
+
+    // Fetch gyms with the applied filter (if any)
+    const gyms = await GymModel.find(query);
     res.status(200).json(gyms);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching gyms' });
   }
 });
-
 
 
 // Backend Route to Fetch Single Gym

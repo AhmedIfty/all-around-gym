@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 import "./card2.scss";
 
-const getSubscriptionType = (fee) => {
-  if (fee <= 50) return 'Basic';
-  if (fee <= 100) return 'Advanced';
-  return 'Pro';
-};
+// const getSubscriptionType = (fee) => {
+//   if (fee <= 50) return 'Basic';
+//   if (fee <= 100) return 'Advanced';
+//   return 'Pro';
+// };
 
 const Card2 = ({ item, selectedSubscriptionType }) => {
-  const subscriptionType = getSubscriptionType(item.subscriptionFee);
+  //const subscriptionType = getSubscriptionType(item.subscriptionFee);
+
+  const subscriptionType = item.planType;
 
   if (selectedSubscriptionType && subscriptionType !== selectedSubscriptionType) {
     return null; // Do not render the card if it doesn't match the selected subscription type

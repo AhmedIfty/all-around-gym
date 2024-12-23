@@ -7,7 +7,7 @@ function Filter({ onFilterChange }) {
   const handleChange = (e) => {
     const { value } = e.target;
     setSubscriptionType(value);
-    onFilterChange({ subscriptionType: value });
+    onFilterChange({ subscriptionType: value });  // Pass the selected subscription type
   };
 
   return (
@@ -21,9 +21,9 @@ function Filter({ onFilterChange }) {
           onChange={handleChange}
         >
           <option value="">Any</option>
-          <option value="Basic">Basic</option>
-          <option value="Advanced">Advanced</option>
-          <option value="Pro">Pro</option>
+          <option value="basic">Basic</option>
+          <option value="advanced">Advanced</option>
+          <option value="pro">Pro</option>
         </select>
       </div>
     </div>
