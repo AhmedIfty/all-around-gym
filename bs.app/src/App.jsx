@@ -63,7 +63,7 @@ const App = () => {
           element: <ProfileUpdatePage/>
         },
         {
-          path: "/TrainerProfile",
+          path: "/trainerprofile",
           element: <TrainerProfile/>
         },
         {
