@@ -11,6 +11,10 @@ import SinglePage from './routes/singlePage/singlePage';
 import TrainerProfile from './routes/trainer_profile/trainer_profile';
 import Searchtest from './routes/searchtest/searchtest';
 import Payment from './routes/payment/payment';
+import SuccessPage from './routes/success/SuccessPage';
+import DietPlans from './routes/dietplan/DietPlans'; // Import the Success page
+// import CancelPage from './routes/cancel/CancelPage'; // Import the Cancel page
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -65,14 +69,25 @@ const App = () => {
         {
           path: "/searchtest",
           element: <Searchtest/>
-        }
-        
+        },
+        {
+          path: "/diet-plans",
+          element: <DietPlans />
+        },                
       ]
     },
     {
       path: "/Payment",
       element: <Payment/>
-    }
+    },
+    {
+      path: "/success", // Add route for success
+      element: <SuccessPage />,
+    },
+    // {
+    //   path: "/cancel", // Add route for cancel
+    //   element: <CancelPage />,
+    // },
     
   ]);
   

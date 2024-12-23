@@ -91,6 +91,10 @@ const Navbar = () => {
                         <Link to="/profile" className="profile">
                             Profile
                         </Link>
+
+                        {/* <Link to="/searchtest" className="SearchTest">
+                            <button type="submit">Search</button>
+                        </Link> */}
                         {showDropdown && (
                             <div className='dropdown'>
                                 <div className='dropdown-item' onClick={handleLogout}>

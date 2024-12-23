@@ -31,7 +31,7 @@ app.use(session({
 // Create Payment Intent
 app.post('/create-payment-intent', async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, planType  } = req.body;
 
     if (!amount || amount <= 0) {
       return res.status(400).json({ message: 'Invalid amount' });
@@ -54,6 +54,9 @@ app.post('/create-payment-intent', async (req, res) => {
       mode: 'payment',
       success_url: 'http://localhost:3000/success',
       cancel_url: 'http://localhost:3000/cancel',
+      metadata: {
+        planType: planType,  // Store planType in metadata
+      }
     });
 
     res.json({ sessionId: session.id }); // Return the session ID
@@ -62,6 +65,33 @@ app.post('/create-payment-intent', async (req, res) => {
     res.status(500).json({ error: 'Failed to create payment session' });
   }
 });
+
+// Payment success callback
+app.post('/payment-success', async (req, res) => {
+  try {
+    // Get user ID from session and planType from request body
+    const userId = req.session.userId;
+    const { planType } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ message: 'User not logged in or session expired' });
+    }
+
+    if (!planType) {
+      return res.status(400).json({ message: 'Invalid plan type' });
+    }
+
+    // Update the user's planType in the database
+    await UserModel.findByIdAndUpdate(userId, { planType });
+
+    res.status(200).json({ message: 'Plan updated successfully' });
+  } catch (error) {
+    console.error('Error updating user plan:', error);
+    res.status(500).json({ message: 'Failed to update plan' });
+  }
+});
+
+
 
 // DELETE exercise by ID
 app.delete('/exercises/:exerciseId', async (req, res) => {
@@ -326,7 +356,29 @@ app.get('/api/gyms/:id', async (req, res) => {
     res.status(500).json({ message: 'Error fetching gym details' });
   }
 });
+// Backend Route to TO GET SUBSCRIPTION TYPE Gym
+app.get('/api/gyms', async (req, res) => {
+  try {
+    const { subscriptionType } = req.query;
+    const query = {};
 
+    if (subscriptionType) {
+      if (subscriptionType === 'Basic') {
+        query.subscriptionFee = { $lte: 50 };
+      } else if (subscriptionType === 'Advanced') {
+        query.subscriptionFee = { $gt: 50, $lte: 100 };
+      } else if (subscriptionType === 'Pro') {
+        query.subscriptionFee = { $gt: 100 };
+      }
+    }
+
+    const gyms = await GymModel.find(query);
+    res.json(gyms);
+  } catch (error) {
+    console.error('Error fetching gyms:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Check login status
 app.get('/checkLogin', (req, res) => {

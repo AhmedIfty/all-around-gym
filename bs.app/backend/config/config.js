@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    planType: {
+      type: String,
+      default: 'none', // Default role is 'user',
+    },
     role: {
       type: String,
       enum: ['user', 'admin'], // Define allowed roles

@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 const SearchBar = () => {
   const [filters, setFilters] = useState({
     searchTerm: '',
-    maxPrice: '',
-    bedroom: '',
   });
   const [results, setResults] = useState([]);
 
@@ -19,7 +17,7 @@ const SearchBar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/search?term=${filters.searchTerm}`);
+      const response = await fetch(`http://localhost:5000/search_21201297?term=${filters.searchTerm}`);
       const data = await response.json();
       setResults(data.users.concat(data.gyms)); // Combine users and gyms results
     } catch (error) {
@@ -40,28 +38,6 @@ const SearchBar = () => {
               value={filters.searchTerm}
               onChange={handleFilterChange}
               placeholder="Search..."
-            />
-          </div>
-          <div className="item">
-            <label htmlFor="maxPrice">Max Price</label>
-            <input
-              type="number"
-              id="maxPrice"
-              name="maxPrice"
-              value={filters.maxPrice}
-              onChange={handleFilterChange}
-              placeholder="Any"
-            />
-          </div>
-          <div className="item">
-            <label htmlFor="bedroom">Bedrooms</label>
-            <input
-              type="number"
-              id="bedroom"
-              name="bedroom"
-              value={filters.bedroom}
-              onChange={handleFilterChange}
-              placeholder="Any"
             />
           </div>
         </div>
@@ -93,6 +69,11 @@ const SearchBar = () => {
                   <p><strong>Location:</strong> {item.location || 'No location'}</p>
                   <p><strong>Description:</strong> {item.description || 'No description'}</p>
                   <p><strong>Facilities:</strong> {item.facilities.join(', ') || 'No facilities'}</p>
+                  {item.gymImage && (
+                    <div>
+                      <img src={item.gymImage} alt={item.name} style={{ width: '100%', height: 'auto' }} />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
