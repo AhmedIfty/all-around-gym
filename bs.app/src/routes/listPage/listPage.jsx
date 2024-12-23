@@ -17,7 +17,7 @@ function ListPage() {
     const fetchGyms = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/gyms", {
-          params: filters,
+          params: filters, // Pass filters as query parameters to the backend
         });
         setGyms(response.data); // Set the gym data to the state
       } catch (err) {
@@ -28,7 +28,7 @@ function ListPage() {
     };
 
     fetchGyms();
-  }, [filters]);
+  }, [filters]); // Refetch gyms whenever filters change
 
   // Handle loading and error states
   if (loading) {
@@ -39,8 +39,9 @@ function ListPage() {
     return <div>{error}</div>;
   }
 
+  // Handle filter change from Filter component
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
+    setFilters(newFilters); // Update the filter state
   };
 
   return (
