@@ -4,7 +4,7 @@ import "./listPage.scss";
 import Filter from "../../Components/filter/Filter";
 import Card2 from "../../Components/card2/Card2";
 import Map from "../../Components/map/Map";
-
+import SearchBar from "../../Components/search/searchBar";
 function ListPage() {
   // Define state for storing gym data
   const [gyms, setGyms] = useState([]);
@@ -46,6 +46,9 @@ function ListPage() {
   return (
     <div className="listPage">
       <div className="listContainer">
+        <div className="searchbar">
+          <SearchBar/>
+        </div>
         <div className="wrapper">
           <Filter onFilterChange={handleFilterChange} />
           {gyms.map((gym) => (

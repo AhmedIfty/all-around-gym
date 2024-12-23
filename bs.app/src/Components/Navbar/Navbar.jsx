@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import SearchBar from '../../Components/search/searchBar';
 import axios from 'axios';
 
 const Navbar = () => {
@@ -44,10 +43,6 @@ const Navbar = () => {
         };
     }, []);
 
-    const handleSearch = (searchTerm) => {
-        console.log('Search term:', searchTerm);
-    };
-
     // Handle logout functionality
     const handleLogout = async () => {
         try {
@@ -66,42 +61,39 @@ const Navbar = () => {
                     <img src="/logo.png" alt="" />
                     <span>BS Services</span>
                 </a>
-                {/* <div>
-                  <SearchBar onSearch={handleSearch} />
-                </div> */}
-                
             </div>
-            <div className='gymlist'><a href='/list'>Gym List</a></div>
-            <div className='right'>
-            
-                {user ? (
-                    <div
-                        className='user'
-                        onMouseEnter={() => setShowDropdown(true)}
-                        onMouseLeave={() => setShowDropdown(false)}
-                    >   
-                        <img
-                            src={
-                                user.avatar ||
-                                'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-                            }
-                            alt='User Avatar'
-                        />
-                        <span>{user.username}</span>
-                        <Link to="/profile" className="profile">
-                            Profile
-                        </Link>
 
-                        {/* <Link to="/searchtest" className="SearchTest">
-                            <button type="submit">Search</button>
-                        </Link> */}
-                        {showDropdown && (
-                            <div className='dropdown'>
-                                <div className='dropdown-item' onClick={handleLogout}>
-                                    → Logout
+            <div className='right'>
+                {user ? (
+                    <div className='user-container'>
+                        <div className='gymlist'>
+                            <a href='/list'>Gym List</a>
+                        </div>
+                        <div
+                            className='user'
+                            onMouseEnter={() => setShowDropdown(true)}
+                            onMouseLeave={() => setShowDropdown(false)}
+                        >
+                            <img
+                                src={
+                                    user.avatar ||
+                                    'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                }
+                                alt='User Avatar'
+                            />
+                            <span>{user.username}</span>
+                            
+                            {showDropdown && (
+                                <div className='dropdown'>
+                                    <div className='dropdown-item' onClick={handleLogout}>
+                                        → Logout
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
+                        <Link to="/profile" className="profile">
+                                Profile
+                        </Link>
                     </div>
                 ) : (
                     <ul>

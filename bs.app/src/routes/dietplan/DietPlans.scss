@@ -1,47 +1,104 @@
 .diet-plans-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f9f9f9;
   padding: 20px;
-  max-width: 800px;
-  margin: 8%;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
 
   h1 {
-    text-align: center;
+    margin-top: 8%;
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
     margin-bottom: 20px;
+    text-transform: uppercase;
   }
 
   .goal-selector {
     margin-bottom: 20px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     label {
-      margin-right: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
     }
 
     select {
-      padding: 5px;
+      padding: 10px;
       font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #333;
+      cursor: pointer;
+
+      &:focus {
+        border-color: rgb(196, 231, 195);
+        outline: none;
+        box-shadow: 0 0 5px rgba(196, 231, 195, 0.7);
+      }
     }
   }
 
   .diet-plans, .recipes, .workouts {
-    margin-bottom: 20px;
+    margin: 20px 0;
+    width: 90%;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 
     h2 {
-      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      color: rgb(196, 231, 195);
+      margin-bottom: 20px;
+      text-transform: uppercase;
     }
 
     .diet-plan, .recipe, .workout {
-      background: #f9f9f9;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       h3 {
-        margin: 0 0 5px 0;
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
       }
 
       p {
-        margin: 0;
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
       }
     }
   }
+
+  
+  .diet-plan:hover, .recipe:hover, .workout:hover {
+    background-color: rgb(196, 231, 195, 0.1);
+    transform: translateY(-2px);
+    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+  }
+
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(196, 231, 195, 0.5),
+    rgba(255, 255, 255, 0.9)
+  );
 }

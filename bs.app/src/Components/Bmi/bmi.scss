@@ -32,23 +32,22 @@
 
         &:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            border-color: rgb(196, 231, 195);
+            box-shadow: 0 0 5px rgb(196, 231, 195);
         }
     }
 
     button {
-        background: #007bff;
-        color: #fff;
+        background: rgb(196, 231, 195);
+        color: #000000;
         border: none;
-        padding: 10px 20px; // Adjusted padding for better fit
+        padding: 10px 20px;
         font-size: 15px;
-        border-radius: 4px;
         cursor: pointer;
         transition: background 0.3s ease;
 
         &:hover {
-            background: #0056b3;
+            scale: 1.05;
         }
     }
 
