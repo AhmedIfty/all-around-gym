@@ -9,14 +9,17 @@ import pro_icon from '../../Assects/pro_icon.png';
 const stripePromise = loadStripe('pk_test_51QYvzaJi9PDA9XsNPnfEQ0v4VYjur0bFGkfFtJBF0mAiumlJoyzKYtD7ARaGDlGPaY11F6WJMJE98H1KEoPsdxbF00ovNfFrGl');
 
 const Services = () => {
-  const handlePayment = async (amount) => {
+  const handlePayment = async (amount, planType) => {
     try {
+      // Store the selected planType locally
+      localStorage.setItem('selectedPlanType', planType);
+
       const response = await fetch('http://localhost:5000/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ amount, planType }),
       });
 
       const { sessionId } = await response.json();
@@ -49,7 +52,7 @@ const Services = () => {
             <li>✔ Feature 3</li>
           </ul>
         </div>
-        <div className="caption" onClick={() => handlePayment(15)}>
+        <div className="caption" onClick={() => handlePayment(15, 'basic')}>
           <img src={basic_icon} alt="Basic Icon" />
           <p>Choose Basic</p>
         </div>
@@ -66,7 +69,7 @@ const Services = () => {
             <li>✔ Feature 3</li>
           </ul>
         </div>
-        <div className="caption" onClick={() => handlePayment(25)}>
+        <div className="caption" onClick={() => handlePayment(25, 'advanced')}>
           <img src={advance_icon} alt="Advanced Icon" />
           <p>Choose Advanced</p>
         </div>
@@ -83,7 +86,7 @@ const Services = () => {
             <li>✔ Feature 3</li>
           </ul>
         </div>
-        <div className="caption" onClick={() => handlePayment(50)}>
+        <div className="caption" onClick={() => handlePayment(50, 'pro')}>
           <img src={pro_icon} alt="Pro Icon" />
           <p>Choose Pro</p>
         </div>
