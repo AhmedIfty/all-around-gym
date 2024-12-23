@@ -17,7 +17,7 @@ const SearchBar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/search?term=${filters.searchTerm}`);
+      const response = await fetch(`http://localhost:5000/search_21201297?term=${filters.searchTerm}`);
       const data = await response.json();
       setResults(data.users.concat(data.gyms)); // Combine users and gyms results
     } catch (error) {

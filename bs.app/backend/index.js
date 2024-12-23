@@ -324,6 +324,7 @@ app.get('/api/gyms/:id', async (req, res) => {
     res.status(500).json({ message: 'Error fetching gym details' });
   }
 });
+// Backend Route to TO GET SUBSCRIPTION TYPE Gym
 app.get('/api/gyms', async (req, res) => {
   try {
     const { subscriptionType } = req.query;
