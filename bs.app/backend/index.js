@@ -244,6 +244,8 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
+
 // Fetch exercises
 app.get('/exercises', async (req, res) => {
   try {
