@@ -7,6 +7,7 @@ const { GymModel } = require('./config/config'); // Import Gym model
 
 const app = express();
 const saltRounds = 10;
+const stripe = require('stripe')('sk_test_51QYvzaJi9PDA9XsNYDfB7YOq3M5jlw0tezrf0OfJo8kmTqFhLuQB4JBIbZpVEcsKJUQy3dVHUoomdv0VQfwsIhh300ebHwpHEc');
 
 // Enable CORS to allow requests from React frontend
 app.use(cors({
@@ -25,6 +26,42 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } 
 }));
+
+
+// Create Payment Intent
+app.post('/create-payment-intent', async (req, res) => {
+  try {
+    const { amount } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ message: 'Invalid amount' });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Service Payment',
+            },
+            unit_amount: amount * 100, // Convert dollars to cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'http://localhost:3000/success',
+      cancel_url: 'http://localhost:3000/cancel',
+    });
+
+    res.json({ sessionId: session.id }); // Return the session ID
+  } catch (error) {
+    console.error('Error creating payment session:', error);
+    res.status(500).json({ error: 'Failed to create payment session' });
+  }
+});
 
 // DELETE exercise by ID
 app.delete('/exercises/:exerciseId', async (req, res) => {
@@ -303,3 +340,5 @@ const port = 5000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+
+

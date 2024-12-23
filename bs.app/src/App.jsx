@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminLogin from './routes/adminLogin/adminLogin';
-import Homepage from './routes/homepage/Homepage'
-import Layout from './routes/layout/Layout'
+import Homepage from './routes/homepage/Homepage';
+import Layout from './routes/layout/Layout';
 import Profile from './routes/profile/Profile';
 import Register from './routes/register/Register';
 import Login from './routes/login/login';
@@ -10,6 +10,7 @@ import ListPage from './routes/listPage/listPage';
 import SinglePage from './routes/singlePage/singlePage';
 import TrainerProfile from './routes/trainer_profile/trainer_profile';
 import Searchtest from './routes/searchtest/searchtest';
+import Payment from './routes/payment/payment';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -65,8 +66,14 @@ const App = () => {
           path: "/searchtest",
           element: <Searchtest/>
         }
+        
       ]
+    },
+    {
+      path: "/Payment",
+      element: <Payment/>
     }
+    
   ]);
   
   

@@ -77,7 +77,7 @@ const Navbar = () => {
                         className='user'
                         onMouseEnter={() => setShowDropdown(true)}
                         onMouseLeave={() => setShowDropdown(false)}
-                    >
+                    >   <li><a href='/list'>Gym List</a></li>
                         <img
                             src={
                                 user.avatar ||
@@ -99,6 +99,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <ul>
+                        <li><a href='/list'>Gym List</a></li>
                         <li><a href='/login'>Sign in</a></li>
                         <li><a href='/register' className="register">Sign up</a></li>
                     </ul>
