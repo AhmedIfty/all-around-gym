@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import List from '../../Components/list/List';
 import './trainer_profile.scss';
 
 const TrainerProfile = () => {
@@ -9,7 +8,6 @@ const TrainerProfile = () => {
             <div className="wrapper">
               <div className="title">
                 <h1>User Information</h1>
-                <button><a href="/ProfileUpdatePage">Update Profile</a></button>
               </div>
               <div className="info">
                 <span>
@@ -34,7 +32,6 @@ const TrainerProfile = () => {
                   <p>Zeus Gym</p>
                 </span>
               </div>
-              <List />
             </div>
           </div>
         </div>
