@@ -1,55 +1,161 @@
-.filter {
+.filters {
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  h1 {
-    font-weight: 300;
-    font-size: 24px;
-  }
-
   .item {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 5px;
 
     label {
-      font-size: 10px;
+      font-size: 15px;
     }
 
-    input,
-    select {
-      width: 100px;
+    input {
       padding: 10px;
       border: 1px solid #e0e0e0;
       border-radius: 5px;
       font-size: 14px;
+      width: 70%;
     }
   }
+}
 
-  .top {
-    input {
-      width: 100%;
-    }
+button.search-button {
+  padding: 10px 30px;
+  border: none;
+  color: rgb(0, 0, 0);
+  background-color: rgb(196, 231, 195);
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    scale: 1.05;
   }
+}
 
-  .bottom {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 
-    button {
-      width: 100px;
-      padding: 10px;
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%;
+    max-height: 60%;
+    overflow-y: auto;
+    position: relative;
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
       border: none;
+      font-size: 20px;
       cursor: pointer;
-      background-color: rgb(196, 231, 195);
 
-      img {
-        width: 24px;
-        height: 24px;
+      &:hover {
+        color: red;
+      }
+    }
+
+    .search-results {
+      .result-item {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 10px 0;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        p {
+          font-size: 16px; /* Larger font size for better readability */
+          margin-bottom: 8px;
+        }
+
+        img {
+          max-width: 300px; /* Set a fixed maximum width */
+          height: auto; /* Maintain aspect ratio */
+          // margin: 10px auto; /* Center the image */
+          display: block; /* Ensure it's centered and block-level */
+          border-radius: 5px; /* Rounded corners for a polished look */
+        }
       }
     }
   }
 }
+
+
+
+
+
+
+
+// .filter {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+
+//   h1 {
+//     font-weight: 300;
+//     font-size: 24px;
+//   }
+
+//   .item {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 2px;
+
+//     label {
+//       font-size: 10px;
+//     }
+
+//     input,
+//     select {
+//       width: 100px;
+//       padding: 10px;
+//       border: 1px solid #e0e0e0;
+//       border-radius: 5px;
+//       font-size: 14px;
+//     }
+//   }
+
+//   .top {
+//     input {
+//       width: 100%;
+//     }
+//   }
+
+//   .bottom {
+//     display: flex;
+//     justify-content: space-between;
+//     flex-wrap: wrap;
+//     gap: 20px;
+
+//     button {
+//       width: 100px;
+//       padding: 10px;
+//       border: none;
+//       cursor: pointer;
+//       background-color: rgb(196, 231, 195);
+
+//       img {
+//         width: 24px;
+//         height: 24px;
+//       }
+//     }
+//   }
+// }

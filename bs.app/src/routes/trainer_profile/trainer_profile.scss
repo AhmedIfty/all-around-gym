@@ -1,58 +1,137 @@
-.profilePage {
+.profilePage11 {
   display: flex;
-  height: 100%;
-  margin-top: 8%;
-  margin-left: 2%;
-  margin-right: 2%;
+  flex-direction: column;
+  align-items: center;
+  margin: 8% auto;
+  max-width: 1200px;
+  padding: 20px;
 
-  
+  .details1 {
+    width: 100%;
 
-  .details {
-    flex: 3;
-    overflow-y: scroll;
-    padding-bottom: 50px;
-
-    
-    .wrapper{
-      padding-right: 50px;
+    .wrapper1 {
       display: flex;
       flex-direction: column;
       gap: 50px;
 
-      .title{
+      .title1 {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
 
-        h1{
-          font-weight: 300;
+        h1 {
+          font-weight: 600;
         }
 
-        button{
-          padding: 12px 24px;
-          background-color: rgb(196, 231, 195);
-          cursor: pointer;
+        button {
+          padding: 10px 20px;
+          background-color: #c4e7c3;
           border: none;
+          border-radius: 5px;
+
+          a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+          }
         }
       }
 
-      .info{
+      .info1 {
         display: flex;
-        flex-direction: column;
-        gap: 20px;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
 
-        span{
+        .bio1 {
+          flex: 1;
           display: flex;
-          align-items: center;
+          flex-direction: column;
           gap: 20px;
+
+          h1 {
+            font-size: 28px;
+            font-weight: bold;
+          }
+
+          h2 {
+            font-size: 18px;
+          }
+
+          p {
+            font-size: 16px;
+            line-height: 1.6;
+          }
+
+          span {
+            display: block;
+            margin-bottom: 10px;
+
+            h2 {
+              display: inline;
+              margin-right: 10px;
+              font-size: 18px;
+              font-weight: bold;
+            }
+
+            h3 {
+              display: inline;
+              font-size: 16px;
+              font-weight: normal;
+            }
+          }
         }
 
-        img{
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
+        .avatar1 {
+          flex: 0 0 500px; /* Fixed size for avatar */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            width: 500px;
+            height: 500px;
+            border-radius: 5px;
+            object-fit: cover;
+          }
         }
+      }
+    }
+  }
+
+  .specialization-title1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .specialization1 {
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+
+    .card1 {
+      flex: 1;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+
+      .icon1 {
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        font-size: 20px;
+        margin: 10px 0;
+      }
+
+      p {
+        font-size: 14px;
+        color: #666;
       }
     }
   }

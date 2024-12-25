@@ -1,34 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import './searchBar.scss';
+import './searchBar.scss'; // Import SCSS
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState([]);
   const [filters, setFilters] = useState({
-    city: '',
-    type: '',
-    property: '',
-    minPrice: '',
-    maxPrice: '',
-    bedroom: '',
+    searchTerm: '',
   });
+  const [results, setResults] = useState([]);
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
 
-  // Function to handle the search
-  const handleSearch = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.get(`http://localhost:5000/search?term=${encodeURIComponent(searchTerm)}`);
-      setResults(response.data);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-      if (error.response && error.response.status === 404) {
-        setResults([]); // Set empty results if no matches are found
-      }
-    }
-  };
-
-  // Function to handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters({
@@ -37,105 +16,185 @@ const SearchBar = () => {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:5000/search?term=${filters.searchTerm}`);
+      const data = await response.json();
+      setResults(data.users.concat(data.gyms)); // Combine users and gyms results
+      setShowModal(true); // Show modal on search
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false); // Close the modal
+  };
+
   return (
-    <div className="search-bar-container">
-      <form onSubmit={handleSearch} className="search-bar">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search..."
-          className="search-input"
-        />
+    <div>
+      <form onSubmit={handleSubmit}>
         <div className="filters">
           <div className="item">
-            <label htmlFor="city">Location</label>
+            <label htmlFor="searchTerm">Gym Name</label>
             <input
               type="text"
-              id="city"
-              name="city"
-              value={filters.city}
+              id="searchTerm"
+              name="searchTerm"
+              value={filters.searchTerm}
               onChange={handleFilterChange}
-              placeholder="City Location"
-            />
-          </div>
-          <div className="item">
-            <label htmlFor="type">Type</label>
-            <select name="type" id="type" value={filters.type} onChange={handleFilterChange}>
-              <option value="">Any</option>
-              <option value="buy">Buy</option>
-              <option value="rent">Rent</option>
-            </select>
-          </div>
-          <div className="item">
-            <label htmlFor="property">Property</label>
-            <select name="property" id="property" value={filters.property} onChange={handleFilterChange}>
-              <option value="">Any</option>
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="condo">Condo</option>
-              <option value="land">Land</option>
-            </select>
-          </div>
-          <div className="item">
-            <label htmlFor="minPrice">Min Price</label>
-            <input
-              type="number"
-              id="minPrice"
-              name="minPrice"
-              value={filters.minPrice}
-              onChange={handleFilterChange}
-              placeholder="Any"
-            />
-          </div>
-          <div className="item">
-            <label htmlFor="maxPrice">Max Price</label>
-            <input
-              type="number"
-              id="maxPrice"
-              name="maxPrice"
-              value={filters.maxPrice}
-              onChange={handleFilterChange}
-              placeholder="Any"
-            />
-          </div>
-          <div className="item">
-            <label htmlFor="bedroom">Bedrooms</label>
-            <input
-              type="number"
-              id="bedroom"
-              name="bedroom"
-              value={filters.bedroom}
-              onChange={handleFilterChange}
-              placeholder="Any"
+              placeholder="Search..."
             />
           </div>
         </div>
-        <button type="submit" className="search-button">Search</button>
+        <button type="submit" className='search-button'>Search</button>
       </form>
-      <div className="search-results">
-        {results.map((item, index) => (
-          <div key={index} className="result-item">
-            {/* Check if the user has exercises */}
-            {item.exercises && item.exercises.length > 0 ? (
-              <div>
-                <p><strong>User:</strong> {item.username || 'No username'}</p>
-                <ul>
-                  {item.exercises.map((exercise, exIndex) => (
-                    <li key={exIndex}>
-                      <p>{exercise.exerciseName || 'No exercise name'} - {exercise.sets} Sets, {exercise.reps} Reps</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <p>No exercises found for this user.</p>
-            )}
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <button className="close-button" onClick={closeModal}>✖</button>
+            <div className="search-results">
+              {Array.isArray(results) && results.length > 0 ? (
+                results.map((item, index) => (
+                  <div key={index} className="result-item">
+                    {/* Check if the item is a user */}
+                    {item.username ? (
+                      <div>
+                        <p><strong>User:</strong> {item.username || 'No username'}</p>
+                        {item.exercises && item.exercises.length > 0 ? (
+                          <ul>
+                            {item.exercises.map((exercise, exIndex) => (
+                              <li key={exIndex}>
+                                <p>{exercise.exerciseName || 'No exercise name'} - {exercise.sets} Sets, {exercise.reps} Reps</p>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>No exercises found for this user.</p>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        <p><strong>Gym:</strong> {item.name || 'No gym name'}</p>
+                        <p><strong>Location:</strong> {item.location || 'No location'}</p>
+                        <p><strong>Description:</strong> {item.description || 'No description'}</p>
+                        <p><strong>Facilities:</strong> {item.facilities.join(', ') || 'No facilities'}</p>
+                        {item.gymImage && (
+                          <div>
+                            <img src={item.gymImage} alt={item.name} style={{ width: '100%', height: 'auto' }} />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>No results found.</p>
+              )}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default SearchBar;
+
+
+
+
+
+
+
+// import React, { useState } from 'react';
+
+// const SearchBar = () => {
+//   const [filters, setFilters] = useState({
+//     searchTerm: '',
+//   });
+//   const [results, setResults] = useState([]);
+
+//   const handleFilterChange = (e) => {
+//     const { name, value } = e.target;
+//     setFilters({
+//       ...filters,
+//       [name]: value,
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await fetch(`http://localhost:5000/search?term=${filters.searchTerm}`);
+//       const data = await response.json();
+//       setResults(data.users.concat(data.gyms)); // Combine users and gyms results
+//     } catch (error) {
+//       console.error('Error fetching search results:', error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <form onSubmit={handleSubmit}>
+//         <div className="filters">
+//           <div className="item">
+//             <label htmlFor="searchTerm">Search Term</label>
+//             <input
+//               type="text"
+//               id="searchTerm"
+//               name="searchTerm"
+//               value={filters.searchTerm}
+//               onChange={handleFilterChange}
+//               placeholder="Search..."
+//             />
+//           </div>
+//         </div>
+//         <button type="submit" className="search-button">Search</button>
+//       </form>
+//       <div className="search-results">
+//         {Array.isArray(results) && results.length > 0 ? (
+//           results.map((item, index) => (
+//             <div key={index} className="result-item">
+//               {/* Check if the item is a user */}
+//               {item.username ? (
+//                 <div>
+//                   <p><strong>User:</strong> {item.username || 'No username'}</p>
+//                   {item.exercises && item.exercises.length > 0 ? (
+//                     <ul>
+//                       {item.exercises.map((exercise, exIndex) => (
+//                         <li key={exIndex}>
+//                           <p>{exercise.exerciseName || 'No exercise name'} - {exercise.sets} Sets, {exercise.reps} Reps</p>
+//                         </li>
+//                       ))}
+//                     </ul>
+//                   ) : (
+//                     <p>No exercises found for this user.</p>
+//                   )}
+//                 </div>
+//               ) : (
+//                 <div>
+//                   <p><strong>Gym:</strong> {item.name || 'No gym name'}</p>
+//                   <p><strong>Location:</strong> {item.location || 'No location'}</p>
+//                   <p><strong>Description:</strong> {item.description || 'No description'}</p>
+//                   <p><strong>Facilities:</strong> {item.facilities.join(', ') || 'No facilities'}</p>
+//                   {item.gymImage && (
+//                     <div>
+//                       <img src={item.gymImage} alt={item.name} style={{ width: '100%', height: 'auto' }} />
+//                     </div>
+//                   )}
+//                 </div>
+//               )}
+//             </div>
+//           ))
+//         ) : (
+//           <p>No results found.</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default SearchBar;

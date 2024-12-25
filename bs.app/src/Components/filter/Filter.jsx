@@ -1,71 +1,30 @@
-import "./filter.scss";
+import React, { useState } from 'react';
+import './filter.scss';
 
-function Filter() {
+function Filter({ onFilterChange }) {
+  const [subscriptionType, setSubscriptionType] = useState('');
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSubscriptionType(value);
+    onFilterChange({ subscriptionType: value });  // Pass the selected subscription type
+  };
+
   return (
     <div className="filter">
-      <h1>
-        Search results for <b>London</b>
-      </h1>
-      <div className="top">
-        <div className="item">
-          <label htmlFor="city">Location</label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            placeholder="City Location"
-          />
-        </div>
-      </div>
-      <div className="bottom">
-        <div className="item">
-          <label htmlFor="type">...</label>
-          <select name="type" id="type">
-            <option value="">...</option>
-            <option value="buy">...</option>
-            <option value="rent">...</option>
-          </select>
-        </div>
-        <div className="item">
-          <label htmlFor="property">...</label>
-          <select name="property" id="property">
-            <option value="">...</option>
-            <option value="apartment">...</option>
-            <option value="house">...</option>
-            <option value="condo">...</option>
-            <option value="land">...</option>
-          </select>
-        </div>
-        <div className="item">
-          <label htmlFor="minPrice">...</label>
-          <input
-            type="number"
-            id="minPrice"
-            name="minPrice"
-            placeholder="any"
-          />
-        </div>
-        <div className="item">
-          <label htmlFor="maxPrice">...</label>
-          <input
-            type="text"
-            id="maxPrice"
-            name="maxPrice"
-            placeholder="any"
-          />
-        </div>
-        <div className="item">
-          <label htmlFor="bedroom">...</label>
-          <input
-            type="text"
-            id="bedroom"
-            name="bedroom"
-            placeholder="any"
-          />
-        </div>
-        <button>
-          <img src="/search.png" alt="" />
-        </button>
+      <div className="item">
+        <label htmlFor="subscriptionType">Subscription Type</label>
+        <select
+          name="subscriptionType"
+          id="subscriptionType"
+          value={subscriptionType}
+          onChange={handleChange}
+        >
+          <option value="">Any</option>
+          <option value="basic">Basic</option>
+          <option value="advanced">Advanced</option>
+          <option value="pro">Pro</option>
+        </select>
       </div>
     </div>
   );

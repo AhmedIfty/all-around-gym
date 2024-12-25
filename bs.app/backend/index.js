@@ -7,6 +7,7 @@ const { GymModel } = require('./config/config'); // Import Gym model
 
 const app = express();
 const saltRounds = 10;
+const stripe = require('stripe')('sk_test_51QYvzaJi9PDA9XsNYDfB7YOq3M5jlw0tezrf0OfJo8kmTqFhLuQB4JBIbZpVEcsKJUQy3dVHUoomdv0VQfwsIhh300ebHwpHEc');
 
 // Enable CORS to allow requests from React frontend
 app.use(cors({
@@ -25,6 +26,72 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } 
 }));
+
+
+// Create Payment Intent
+app.post('/create-payment-intent', async (req, res) => {
+  try {
+    const { amount, planType  } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ message: 'Invalid amount' });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Service Payment',
+            },
+            unit_amount: amount * 100, // Convert dollars to cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'http://localhost:3000/success',
+      cancel_url: 'http://localhost:3000/cancel',
+      metadata: {
+        planType: planType,  // Store planType in metadata
+      }
+    });
+
+    res.json({ sessionId: session.id }); // Return the session ID
+  } catch (error) {
+    console.error('Error creating payment session:', error);
+    res.status(500).json({ error: 'Failed to create payment session' });
+  }
+});
+
+// Payment success callback
+app.post('/payment-success', async (req, res) => {
+  try {
+    // Get user ID from session and planType from request body
+    const userId = req.session.userId;
+    const { planType } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ message: 'User not logged in or session expired' });
+    }
+
+    if (!planType) {
+      return res.status(400).json({ message: 'Invalid plan type' });
+    }
+
+    // Update the user's planType in the database
+    await UserModel.findByIdAndUpdate(userId, { planType });
+
+    res.status(200).json({ message: 'Plan updated successfully' });
+  } catch (error) {
+    console.error('Error updating user plan:', error);
+    res.status(500).json({ message: 'Failed to update plan' });
+  }
+});
+
+
 
 // DELETE exercise by ID
 app.delete('/exercises/:exerciseId', async (req, res) => {
@@ -168,16 +235,9 @@ app.get('/search', async (req, res) => {
       return res.status(400).json({ message: 'Search term is required' });
     }
 
-    const regex = new RegExp(searchTerm, 'i');
-    const results = await UserModel.find({
-      $or: [
-        { username: regex },
-        { email: regex },
-        { 'exercises.exerciseName': regex }
-      ]
-    });
+    const results = await searchUsers(searchTerm);
 
-    if (results.length > 0) {
+    if (results.users.length > 0 || results.gyms.length > 0) {
       return res.status(200).json(results);
     } else {
       return res.status(404).json({ message: 'No matching results found' });
@@ -213,6 +273,56 @@ app.post('/register', async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// API to fetch forum posts
+app.get('/api/forum', async (req, res) => {
+  try {
+    const users = await UserModel.find({}, 'username forumPosts');
+    const posts = users.flatMap(user => 
+      user.forumPosts.map(post => ({
+        username: user.username,
+        content: post.content,
+        createdAt: post.createdAt
+      }))
+    ).sort((a, b) => b.createdAt - a.createdAt);
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching forum posts:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// API to create a new forum post
+app.post('/api/forum', async (req, res) => {
+  const { username, content } = req.body;
+
+  if (!username || !content) {
+    return res.status(400).json({ message: 'Username and content are required' });
+  }
+
+  try {
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const newPost = {
+      content,
+      createdAt: new Date(),
+    };
+
+    user.forumPosts.push(newPost);
+    await user.save();
+
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error('Error posting new message:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 
 // Fetch exercises
 app.get('/exercises', async (req, res) => {
@@ -268,10 +378,21 @@ app.post('/addExercise', async (req, res) => {
   }
 });
 
-// API to fetch gym data
+
+// API to fetch gym data with filters
 app.get('/api/gyms', async (req, res) => {
   try {
-    const gyms = await GymModel.find(); // Fetch gyms without references
+    const { subscriptionType } = req.query; // Extract subscriptionType from query parameters
+
+    let query = {};
+
+    // Apply filter if a subscriptionType is provided
+    if (subscriptionType && subscriptionType !== "Any") {
+      query.planType = subscriptionType; // Filter gyms by planType
+    }
+
+    // Fetch gyms with the applied filter (if any)
+    const gyms = await GymModel.find(query);
     res.status(200).json(gyms);
   } catch (error) {
     console.error(error);
@@ -280,6 +401,42 @@ app.get('/api/gyms', async (req, res) => {
 });
 
 
+// Backend Route to Fetch Single Gym
+app.get('/api/gyms/:id', async (req, res) => {
+  try {
+    const gym = await GymModel.findOne({ gymId: req.params.id });
+    if (!gym) {
+      return res.status(404).json({ message: 'Gym not found' });
+    }
+    res.status(200).json(gym);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching gym details' });
+  }
+});
+// Backend Route to TO GET SUBSCRIPTION TYPE Gym
+app.get('/api/gyms', async (req, res) => {
+  try {
+    const { subscriptionType } = req.query;
+    const query = {};
+
+    if (subscriptionType) {
+      if (subscriptionType === 'Basic') {
+        query.subscriptionFee = { $lte: 50 };
+      } else if (subscriptionType === 'Advanced') {
+        query.subscriptionFee = { $gt: 50, $lte: 100 };
+      } else if (subscriptionType === 'Pro') {
+        query.subscriptionFee = { $gt: 100 };
+      }
+    }
+
+    const gyms = await GymModel.find(query);
+    res.json(gyms);
+  } catch (error) {
+    console.error('Error fetching gyms:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Check login status
 app.get('/checkLogin', (req, res) => {
@@ -295,3 +452,5 @@ const port = 5000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+
+

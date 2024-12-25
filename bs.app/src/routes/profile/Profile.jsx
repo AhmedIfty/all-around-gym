@@ -106,7 +106,7 @@ function ProfilePage() {
               E-mail: <b>{userData.email}</b>
             </span>
           </div>
-          <Bmicalc />
+          
           <div className="title">
             <h1>Workouts</h1>
             <button onClick={handleCreateNewPostClick}>Add New Workout</button>
@@ -115,7 +115,7 @@ function ProfilePage() {
         </div>
       </div>
       <div className="mapContainer">
-        <Map />
+        <Bmicalc />
       </div>
 
       <Modal
