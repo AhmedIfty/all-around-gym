@@ -1,154 +1,185 @@
 nav {
-    width: 100%;
-    height: 100px;
-    padding: 4px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 10;
-    padding-left: 5%;
-    padding-right: 5%;
-    transition: background-color 0.4s ease; // Added transition for smooth background color change
-  
-    // Background color change on scroll
-    &.scrolled {
-      background-color: rgb(196, 231, 195); // Change this to the solid color you want
+  width: 100%;
+  height: 100px;
+  padding: 4px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  padding-left: 5%;
+  padding-right: 5%;
+  transition: background-color 0.4s ease;
+
+  // Background color change on scroll
+  &.scrolled {
+      background-color: rgb(196, 231, 195);
       position: fixed;
-    }
-  
-    .left {
-      gap: 20px;
-    }
-  
-    .logo {
-      font-weight: bold;
-      font-size: 20px;
+  }
+
+  .left {
       display: flex;
-      gap: 10px;
-      transition: all 0.4s ease;
-      margin-top: 0%;
-  
-      &:hover {
-        scale: 1.05;
-      }
-  
-      span {
-        margin-top: 5%;
-      }
-  
-      img {
-        margin-top: 0%;
-        width: 28px;
-      }
-    }
-    .gymlist {
-      display: inline-block;
-      list-style: none;
-      margin: 5px 20px;
-      font-weight: bold;
-      margin-left: 620px;
-      font-size: 20px;
-      margin-top: 0%;
-      transition: all 0.4s ease;
-      color: rgb(0, 0, 0);
+      align-items: center;
+      gap: 20px;
 
-      &:hover {
-        scale: 1.05;
-      }
-    }
-    .right {
-      .user{
-        display: flex;
-        align-items: center;
-        font-weight: bold;
-        // gap: 15px;
-        
-        img{
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin-right: 10px;
-        }
-
-        .profile{
-          padding: 12px 24px;
-          background-color: rgb(196, 231, 195);
-          cursor: pointer;
-          border: none;
-          margin-left: 10px;
-          transition: all 0.4s ease;
-  
-          &:hover {
-            scale: 1.05;
-          }
-        }
-        .dropdown {
-          position: absolute;
-          top: 80px; // Position dropdown below the avatar
-          right: 110; // Align dropdown to the left
-          background-color: #fff;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          z-index: 1000;
-          width: 110px; // Set dropdown width
+      .logo {
+          font-weight: bold;
+          font-size: 20px;
           display: flex;
-          flex-direction: column;
-  
-          // Triangle arrow pointing to the top-left
-          &::before {
-              content: '';
-              position: absolute;
-              top: -10px; // Position above the dropdown
-              left: 10px; // Align to the left
-              border-width: 0 10px 10px 10px; // Triangle size
-              border-style: solid;
-              border-color: transparent transparent #fff transparent; // Triangle color
+          align-items: center;
+          gap: 10px;
+          transition: all 0.4s ease;
+
+          &:hover {
+              scale: 1.05;
           }
-  
-          .dropdown-item {
-              padding: 10px 15px;
-              cursor: pointer;
-              text-align: center;
-              color: #333;
+
+          img {
+              width: 28px;
+          }
+
+          span {
+              font-size: 18px;
+          }
+      }
+  }
+
+  .right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .gymlist {
+          // font-size: 18px;
+          font-weight: bold;
+          text-transform: uppercase;
+          transition: all 0.3s ease;
+
+          a {
+              color: rgb(0, 0, 0);
               text-decoration: none;
-              transition: background-color 0.2s;
-  
+
               &:hover {
-                background-color: #f0f0f0;
-            }
+                  scale: 1.05;
+              }
           }
+      }
+
+      .user-container {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          .user {
+              display: flex;
+              align-items: center;
+              font-weight: bold;
+
+              img {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  margin-right: 10px;
+              }
+
+              span {
+                  margin-right: 10px;
+              }
+
+              
+
+              .dropdown {
+                  position: absolute;
+                  top: 80px;
+                  right: 0;
+                  margin-right: 135px;
+                  background-color: #fff;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                  z-index: 1000;
+                  width: 120px;
+                  display: flex;
+                  flex-direction: column;
+
+                  &::before {
+                      content: '';
+                      position: absolute;
+                      top: -10px;
+                      left: 10px;
+                      border-width: 0 10px 10px 10px;
+                      border-style: solid;
+                      border-color: transparent transparent #fff transparent;
+                  }
+
+                  .dropdown-item {
+                      padding: 10px 15px;
+                      cursor: pointer;
+                      text-align: center;
+                      color: #333;
+                      text-decoration: none;
+                      transition: background-color 0.2s;
+
+                      &:hover {
+                          background-color: #f0f0f0;
+                      }
+                  }
+              }
+          }
+          .profile {
+            padding: 8px 16px;
+            background-color: rgb(196, 231, 195);
+            cursor: pointer;
+            border: none;
+            // border-radius: 4px;
+            transition: all 0.4s ease;
+
+            &:hover {
+                scale: 1.05;
+            }
         }
       }
 
       ul {
-        li {
-          display: inline-block;
-          list-style: none;
-          margin: 5px 20px;
-          font-size: 20px;
-          margin-top: 0%;
-          transition: all 0.4s ease;
-          color: rgb(0, 0, 0);
-  
-          &:hover {
-            scale: 1.05;
-          }
-        }
+          display: flex;
+          align-items: center;
 
-        
-  
-        .register {
-          background-color: black;
-          color: rgb(196, 231, 195);
-          padding: 12px 15px;
-          margin: 20px;
-        }
+          li {
+              display: inline-block;
+              list-style: none;
+              margin: 0 15px;
+              font-size: 18px;
+              color: rgb(0, 0, 0);
+              transition: all 0.4s ease;
+
+              &:hover {
+                  scale: 1.05;
+              }
+
+              a {
+                  text-decoration: none;
+                  color: inherit;
+
+                  &:hover {
+                      color: rgb(34, 193, 195);
+                  }
+              }
+          }
+
+          .register {
+              background-color: black;
+              color: rgb(196, 231, 195);
+              padding: 12px 15px;
+              border-radius: 4px;
+              transition: all 0.4s ease;
+
+              &:hover {
+                  background-color: rgb(34, 193, 195);
+              }
+          }
       }
-    }
   }
-  
+}

@@ -4,7 +4,7 @@ import "./listPage.scss";
 import Filter from "../../Components/filter/Filter";
 import Card2 from "../../Components/card2/Card2";
 import Map from "../../Components/map/Map";
-
+import SearchBar from "../../Components/search/searchBar";
 function ListPage() {
   // Define state for storing gym data
   const [gyms, setGyms] = useState([]);
@@ -17,7 +17,7 @@ function ListPage() {
     const fetchGyms = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/gyms", {
-          params: filters,
+          params: filters, // Pass filters as query parameters to the backend
         });
         setGyms(response.data); // Set the gym data to the state
       } catch (err) {
@@ -28,7 +28,7 @@ function ListPage() {
     };
 
     fetchGyms();
-  }, [filters]);
+  }, [filters]); // Refetch gyms whenever filters change
 
   // Handle loading and error states
   if (loading) {
@@ -39,13 +39,17 @@ function ListPage() {
     return <div>{error}</div>;
   }
 
+  // Handle filter change from Filter component
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
+    setFilters(newFilters); // Update the filter state
   };
 
   return (
     <div className="listPage">
       <div className="listContainer">
+        <div className="searchbar">
+          <SearchBar/>
+        </div>
         <div className="wrapper">
           <Filter onFilterChange={handleFilterChange} />
           {gyms.map((gym) => (

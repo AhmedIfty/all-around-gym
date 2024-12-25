@@ -1,42 +1,83 @@
-// card {
+.card1 {
+    max-width: 90%; // Ensure it scales well inside the container
+    margin: 16px auto;
+    padding: 24px; // Adjust padding to be proportional
+    border-radius: 8px;
+    background: #ffffff; // Match with profile theme
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
 
-// background-color:#fff;
-// padding: 1rem;
-// border-radius: 10px;
-// box-shadow: 0 0 5px #ccc;
+    h2 {
+        margin-bottom: 16px;
+        font-size: 20px; // Slightly smaller font to fit the layout
+        color: #333;
+    }
 
-// }
+    label {
+        display: block;
+        text-align: left;
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #666;
+    }
 
-// h2 {
-//     text-align: center;
-// }
-// label {
-//     display: block; 
-//     margin-bottom: 0.2rem;
-// }
-// input{
-//     width: 100%;
-//     padding: 0.5rem;
-//     font-size: 1.2rem;
-//     margin-bottom: 1em;
-//     box-sizing: border-box;
-// }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 12px; // Adjusted spacing between fields
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 15px;
 
-// button {
-//     width:100%;
-//     padding:0.7rem 1rem;
-//     background-color: #07bdf9;
-//     border: none; 
-//     color: #fff;
-//     font-size: 1.2rem;
-//     border-radius: 5px;
-//     cursor: pointer;
+        &:focus {
+            outline: none;
+            border-color: rgb(196, 231, 195);
+            box-shadow: 0 0 5px rgb(196, 231, 195);
+        }
+    }
 
-// }
+    button {
+        background: rgb(196, 231, 195);
+        color: #000000;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.3s ease;
 
-// .result {
-//     margin-top: 1rem;
-//     font-weight: bold;
+        &:hover {
+            scale: 1.05;
+        }
+    }
 
+    .result1 {
+        margin-top: 16px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
 
-// }
+        span {
+            display: block;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .navigateButton {
+            margin-top: 16px; // Add spacing between message and button
+            background: #28a745; // Green button for navigation
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+
+            &:hover {
+                background: #1e7e34;
+            }
+        }
+    }
+}

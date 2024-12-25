@@ -1,7 +1,7 @@
 .listPage {
   display: flex;
   height: 100%;
-  margin-top: 6%;
+  margin-top: 8%;
   margin-left: 2%;
   margin-right: 2%;
 
@@ -9,6 +9,10 @@
     flex: 3;
     height: 100%;
 
+    .searchbar{
+      margin-top: 2%;
+      width: 50%;
+    }
     .wrapper{
       height: 100%;
       padding-right: 50px;
@@ -17,10 +21,12 @@
       gap: 50px;
       overflow-y: scroll;
       padding-bottom: 50px;
+      margin-top: -8%;
     }
   }
   .mapContainer {
     flex: 2;
+    position: sticky;
     height: 100%;
     background-color: #fcf5f3;
   }

@@ -97,6 +97,9 @@ const GymSchema = new mongoose.Schema({
     type: String,
     required: false, // Gym description is optional
   },
+  planType: {
+    type: String,
+  },
   facilities: [
     {
       type: String, // List of facilities the gym offers
