@@ -20,10 +20,10 @@ const ForumRoute = () => {
             <div className="sidebar">
                 <h2>Popular Posts</h2>
                 <ul>
-                    <li>10-Minute Workouts</li>
-                    <li>Meal Prepping 101</li>
-                    <li>Staying Motivated</li>
-                    <li>Overcoming Plateaus</li>
+                    <li>..</li>
+                    <li>..</li>
+                    <li>..</li>
+                    <li>..</li>
                 </ul>
             </div>
         </div>
