@@ -133,7 +133,8 @@ app.post('/login', async (req, res) => {
       req.session.user = {
         _id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        role: user.role,
       };
 
       req.session.userId = user._id; // Store userId separately
@@ -447,6 +448,27 @@ app.get('/checkLogin', (req, res) => {
     res.status(200).json({ loggedIn: false });
   }
 });
+
+
+// Update session route to include user role
+app.get('/api/session', (req, res) => {
+  if (req.session.user) {
+    res.status(200).json({
+      loggedIn: true,
+      user: {
+        _id: req.session.user._id,
+        username: req.session.user.username,
+        email: req.session.user.email,
+        role: req.session.user.role, // Include role
+      },
+    });
+  } else {
+    res.status(200).json({ loggedIn: false });
+  }
+});
+
+
+
 
 // Start the server
 const port = 5000;

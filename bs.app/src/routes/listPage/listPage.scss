@@ -30,4 +30,28 @@
     height: 100%;
     background-color: #fcf5f3;
   }
+
+  .addGymContainer {
+    
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .addGymButton {
+    margin-left: 8%;
+    padding: 10px 20px;
+    background-color: #ff7f50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  
+    &:hover {
+      background-color: #ff6347;
+    }
+  }
+  
+  
 }
