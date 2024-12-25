@@ -274,6 +274,54 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// API to fetch forum posts
+app.get('/api/forum', async (req, res) => {
+  try {
+    const users = await UserModel.find({}, 'username forumPosts');
+    const posts = users.flatMap(user => 
+      user.forumPosts.map(post => ({
+        username: user.username,
+        content: post.content,
+        createdAt: post.createdAt
+      }))
+    ).sort((a, b) => b.createdAt - a.createdAt);
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching forum posts:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// API to create a new forum post
+app.post('/api/forum', async (req, res) => {
+  const { username, content } = req.body;
+
+  if (!username || !content) {
+    return res.status(400).json({ message: 'Username and content are required' });
+  }
+
+  try {
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const newPost = {
+      content,
+      createdAt: new Date(),
+    };
+
+    user.forumPosts.push(newPost);
+    await user.save();
+
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error('Error posting new message:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 
 // Fetch exercises
