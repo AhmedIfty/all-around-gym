@@ -92,7 +92,35 @@ app.post('/payment-success', async (req, res) => {
   }
 });
 
+// DELETE workout time by ID
+app.delete('/api/workouts/:workoutId', async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const { workoutId } = req.params;
 
+    if (!userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const workoutIndex = user.workoutTimes.findIndex(workout => workout._id.toString() === workoutId);
+    if (workoutIndex === -1) {
+      return res.status(404).json({ message: 'Workout not found' });
+    }
+
+    user.workoutTimes.splice(workoutIndex, 1);
+    await user.save();
+
+    res.status(200).json({ message: 'Workout deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting workout:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // DELETE exercise by ID
 app.delete('/exercises/:exerciseId', async (req, res) => {

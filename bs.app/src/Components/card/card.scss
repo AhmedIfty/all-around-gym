@@ -31,21 +31,33 @@
         color: #000;
         scale: 1.01;
       }
-
     }
-    .Middle{
-      .counterButton1{
-        margin-left: 100%;
 
+    .Middle {
+      display: flex;
+      justify-content: flex-end;
+
+      .deleteButton {
+        padding: 5px 10px;
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #ff1a1a;
+        }
       }
-
     }
+
     .bottom {
       display: flex;
       justify-content: space-between;
       gap: 10px;
 
-      /* First Counter - Input Number (Reps) */
       .counter {
         display: flex;
         align-items: center;
@@ -81,7 +93,6 @@
         }
       }
 
-      /* Second Counter - Increase/Decrease (Sets) */
       .counterWithButtons {
         display: flex;
         align-items: center;

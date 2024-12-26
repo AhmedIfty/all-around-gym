@@ -64,6 +64,20 @@ nav {
           }
         }
       }
+      .forum {
+        a {
+          color: #000000; // Change the color to make it stand out
+          padding: 5px 10px;
+          border: 1px solid #000000;
+          border-radius: 4px;
+          transition: all 0.3s ease;
+  
+          &:hover {
+            background-color: #000000;
+            color: #fff;
+          }
+        }
+      }
   
       .user-container {
         display: flex;

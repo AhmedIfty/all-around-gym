@@ -78,6 +78,12 @@ const Navbar = () => {
             <div className="gymlist">
               <a href="/list">Gym List</a>
             </div>
+            <div className="forum">
+              <a href="/forumroute">Forum</a>
+            </div>
+            <div className="search">
+              <Link to="/searchtest">Search</Link>
+            </div>
             <div
               className="user"
               onMouseEnter={() => setShowDropdown(true)}

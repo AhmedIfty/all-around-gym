@@ -46,7 +46,7 @@ const Card = ({ item, deleteExercise  }) => {
       <div className="textContainer">
         <h2 className="title">{item.exerciseName}</h2>
         <div className="Middle">
-          <button className="counterButton1" onClick={() => deleteExercise(item.exerciseId)}>X</button>
+          <button className="deleteButton" onClick={() => deleteExercise(item.exerciseId)}>X</button>
         </div>
         <div className="bottom">
           <div className="counterWithButtons">

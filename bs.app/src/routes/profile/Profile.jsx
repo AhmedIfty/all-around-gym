@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import List from '../../Components/list/List';
 import Bmicalc from '../../Components/Bmi/bmi';
 import Modal from '../../Components/Modal/modal';
+import axios from 'axios';
 import './Profile.scss';
 
 function ProfilePage() {
@@ -89,6 +90,23 @@ function ProfilePage() {
     }
   };
 
+  const handleDeleteWorkout = async (workoutId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/workouts/${workoutId}`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        setScheduledWorkouts(scheduledWorkouts.filter(workout => workout._id !== workoutId));
+        alert('Workout deleted successfully.');
+      } else {
+        console.error('Failed to delete workout');
+      }
+    } catch (error) {
+      console.error('Error deleting workout:', error);
+    }
+  };
+
   const handleWorkoutSubmit = async () => {
     if (!workoutTime) {
       alert('Please enter a valid workout time.');
@@ -166,7 +184,10 @@ function ProfilePage() {
             {scheduledWorkouts.length > 0 ? (
               <ul>
                 {scheduledWorkouts.map((workout, index) => (
-                  <li key={index}>{new Date(workout.time).toLocaleString()}</li>
+                  <li key={index}>
+                    {new Date(workout.time).toLocaleString()}
+                    <button onClick={() => handleDeleteWorkout(workout._id)}>Delete</button>
+                    </li>
                 ))}
               </ul>
             ) : (
