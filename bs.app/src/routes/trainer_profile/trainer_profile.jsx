@@ -6,7 +6,7 @@ const TrainerProfile = () => {
     <div className="profilePage1">
       <div className="details1">
         <div className="wrapper1">
-          <div className="title">
+          <div className="title1">
             <h1>User Information</h1>
             <button>
               <a href="/ProfileUpdatePage">Update Profile</a>

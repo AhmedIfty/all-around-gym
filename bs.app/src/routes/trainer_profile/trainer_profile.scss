@@ -1,14 +1,20 @@
-.profilePage11 {
+.profilePage1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 8% auto;
-  max-width: 1200px;
+  // margin: 8% auto;
+  // max-width: 1200px;
+  height: 100%;
   padding: 20px;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(196, 231, 195, 0.5),
+    rgba(255, 255, 255, 0.9)
+    );
 
   .details1 {
     width: 100%;
-
+    margin-top: 8%;
     .wrapper1 {
       display: flex;
       flex-direction: column;
@@ -83,14 +89,14 @@
         }
 
         .avatar1 {
-          flex: 0 0 500px; /* Fixed size for avatar */
+          flex: 0 0 500px;
           display: flex;
           justify-content: center;
           align-items: center;
 
           img {
-            width: 500px;
-            height: 500px;
+            width: 300px;
+            height: 300px;
             border-radius: 5px;
             object-fit: cover;
           }

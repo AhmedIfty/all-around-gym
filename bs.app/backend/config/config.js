@@ -83,6 +83,11 @@ const UserSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now },
     },
   ],
+  workoutTimes: [
+    {
+      time: { type: Date, required: true },
+    },
+  ],
 });
 
 // Define the Gym schema

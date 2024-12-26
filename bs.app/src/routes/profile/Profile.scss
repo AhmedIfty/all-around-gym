@@ -1,72 +1,259 @@
 .profilePage {
-    display: flex;
-    height: 100%;
-    margin-top: 6%;
-    margin-left: 2%;
-    margin-right: 2%;
-  
-    
-  
-    .details {
-      flex: 3;
-      overflow-y: scroll;
-      padding-bottom: 50px;
-  
-      
-      .wrapper{
-        padding-right: 50px;
+  display: flex;
+  height: 100%;
+  margin-top: 6%;
+  margin-left: 2%;
+  margin-right: 2%;
+
+  .details {
+    flex: 3;
+    overflow-y: scroll;
+    padding-bottom: 50px;
+
+    .wrapper {
+      padding-right: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h1 {
+          font-weight: 300;
+        }
+
+        button {
+          padding: 12px 24px;
+          background-color: rgb(196, 231, 195);
+          cursor: pointer;
+          border: none;
+        }
+      }
+
+      .info {
         display: flex;
         flex-direction: column;
-        gap: 50px;
-  
-        .title{
+        gap: 20px;
+
+        span {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-  
-          h1{
-            font-weight: 300;
-          }
-  
-          button{
-            padding: 12px 24px;
-            background-color: rgb(196, 231, 195);
-            cursor: pointer;
-            border: none;
-          }
-        }
-  
-        .info{
-          display: flex;
-          flex-direction: column;
           gap: 20px;
-  
-          span{
-            display: flex;
-            align-items: center;
-            gap: 20px;
-          }
-  
-          img{
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
+        }
+
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      .workoutInput {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        input {
+          padding: 10px;
+          font-size: 16px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+
+        button {
+          padding: 10px 20px;
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #45a049;
           }
         }
       }
-    }
-    .mapContainer {
-      flex: 2;
-      // overflow-y: scroll;
-      position: sticky;
-      padding-bottom: 50px;
-      background-color: rgba(196, 231, 195, 0.2);
-      // background: linear-gradient( rgba(196,231,195,0.4), rgba(196,231,195,0.4)), url('../../Assects/basic4.jpg');
-      height: 100%;
-      // width: 50%;
-      
-      
+
+      .scheduledWorkouts {
+        margin-top: 20px;
+
+        h2 {
+          font-size: 18px;
+          font-weight: 400;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            font-size: 16px;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+          }
+        }
+
+        p {
+          font-size: 14px;
+          color: #888;
+        }
+      }
     }
   }
-  
+
+  .mapContainer {
+    flex: 2;
+    padding-bottom: 50px;
+    background-color: rgba(196, 231, 195, 0.2);
+    
+  }
+
+  .partnerRecommendations {
+    margin-top: 20px;
+    width: 70%;
+    margin-left: 5%;
+
+    h2 {
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .recommendationCard {
+      border: 1px solid #c4e7c3;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+
+      p {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          font-size: 14px;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+
+
+// .profilePage {
+//   display: flex;
+//   height: 100%;
+//   margin-top: 6%;
+//   margin-left: 2%;
+//   margin-right: 2%;
+
+//   .details {
+//     flex: 3;
+//     overflow-y: scroll;
+//     padding-bottom: 50px;
+
+//     .wrapper {
+//       padding-right: 50px;
+//       display: flex;
+//       flex-direction: column;
+//       gap: 50px;
+
+//       .title {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+
+//         h1 {
+//           font-weight: 300;
+//         }
+
+//         button {
+//           padding: 12px 24px;
+//           background-color: rgb(196, 231, 195);
+//           cursor: pointer;
+//           border: none;
+//         }
+//       }
+
+//       .info {
+//         display: flex;
+//         flex-direction: column;
+//         gap: 20px;
+
+//         span {
+//           display: flex;
+//           align-items: center;
+//           gap: 20px;
+//         }
+
+//         img {
+//           width: 40px;
+//           height: 40px;
+//           border-radius: 50%;
+//           object-fit: cover;
+//         }
+//       }
+//     }
+//   }
+
+//   .mapContainer {
+//     flex: 2;
+//     padding-bottom: 50px;
+//     background-color: rgba(196, 231, 195, 0.2);
+//   }
+
+//   .partnerRecommendations {
+//     margin-top: 20px;
+//     width: 70%;
+
+//     h2 {
+//       font-weight: 400;
+//       margin-bottom: 10px;
+//     }
+
+//     .recommendationCard {
+//       border: 1px solid #c4e7c3;
+//       border-radius: 8px;
+//       padding: 10px;
+//       margin-bottom: 10px;
+//       background-color: #f9f9f9;
+//       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+//       h3 {
+//         font-size: 18px;
+//         margin-bottom: 5px;
+//       }
+
+//       p {
+//         font-size: 14px;
+//         margin-bottom: 5px;
+//       }
+
+//       ul {
+//         list-style: none;
+//         padding: 0;
+
+//         li {
+//           font-size: 14px;
+//           line-height: 1.5;
+//         }
+//       }
+//     }
+//   }
+// }

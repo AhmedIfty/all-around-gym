@@ -8,6 +8,7 @@ const { GymModel } = require('./config/config'); // Import Gym model
 const app = express();
 const saltRounds = 10;
 const stripe = require('stripe')('sk_test_51QYvzaJi9PDA9XsNYDfB7YOq3M5jlw0tezrf0OfJo8kmTqFhLuQB4JBIbZpVEcsKJUQy3dVHUoomdv0VQfwsIhh300ebHwpHEc');
+const stringSimilarity = require('string-similarity');
 
 // Enable CORS to allow requests from React frontend
 app.use(cors({
@@ -150,11 +151,31 @@ app.post('/login', async (req, res) => {
 
 
 // Send user data stored in the session
-app.get('/profile', (req, res) => {
-  if (req.session.user) {
-    res.status(200).json(req.session.user);
-  } else {
-    res.status(401).json({ message: 'Unauthorized. Please log in.' });
+// app.get('/profile', (req, res) => {
+//   if (req.session.user) {
+//     res.status(200).json(req.session.user);
+//   } else {
+//     res.status(401).json({ message: 'Unauthorized. Please log in.' });
+//   }
+// });
+
+app.get('/profile', async (req, res) => {
+  try {
+    const userId = req.session.userId; // Ensure the user is logged in
+    if (!userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+
+    // Fetch user data including workoutTimes
+    const user = await UserModel.findById(userId).select('username email workoutTimes');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -377,6 +398,103 @@ app.post('/addExercise', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// API to fetch users with matching workouts
+app.get('/api/matching-exercises', async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+
+    // Get current user's exercises
+    const currentUser = await UserModel.findById(userId).select('exercises');
+    if (!currentUser || !currentUser.exercises.length) {
+      return res.status(404).json({ message: 'No exercises found for the user.' });
+    }
+
+    const userExercises = currentUser.exercises.map((ex) => ex.exerciseName.toLowerCase());
+
+    // Find all other users
+    const otherUsers = await UserModel.find({ _id: { $ne: userId } }).select('username exercises');
+    const recommendations = [];
+
+    otherUsers.forEach((otherUser) => {
+      const matchingExercises = [];
+      otherUser.exercises.forEach((exercise) => {
+        const similarity = stringSimilarity.findBestMatch(
+          exercise.exerciseName.toLowerCase(),
+          userExercises
+        );
+
+        // If similarity score is above a threshold (e.g., 0.7), consider it a match
+        if (similarity.bestMatch.rating >= 0.7) {
+          matchingExercises.push(exercise);
+        }
+      });
+
+      if (matchingExercises.length > 0) {
+        recommendations.push({
+          username: otherUser.username,
+          matchingExercises,
+        });
+      }
+    });
+
+    res.status(200).json(recommendations);
+  } catch (error) {
+    console.error('Error fetching recommendations:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// post workout time
+app.post('/api/add-workout', async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const { time } = req.body;
+    
+    if (!userId || !time) {
+      return res.status(400).json({ message: 'Invalid request' });
+    }
+    
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    user.workoutTimes.push({ time });
+    await user.save();
+    
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error adding workout:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// get workout time
+app.get('/api/workouts', async (req, res) => {
+  try {
+    const userId = req.session.userId; // Ensure the user is logged in
+    if (!userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+    
+    const user = await UserModel.findById(userId).select('workoutTimes');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    res.status(200).json(user.workoutTimes);
+  } catch (error) {
+    console.error('Error fetching workouts:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+    
+
+
 
 
 // API to fetch gym data with filters
