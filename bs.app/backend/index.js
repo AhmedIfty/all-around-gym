@@ -134,7 +134,8 @@ app.post('/login', async (req, res) => {
       req.session.user = {
         _id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        role: user.role,
       };
 
       req.session.userId = user._id; // Store userId separately
@@ -201,33 +202,34 @@ app.get('/profile', (req, res) => {
   }
 });
 
-
-
 // Admin login route
 app.post('/admin/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const admin = await User.findOne({ email, role: 'admin' });
 
+    // Find admin with role 'admin'
+    const admin = await UserModel.findOne({ email, role: 'admin' });
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' });
     }
 
+    // Compare hashed passwords
     const isPasswordMatch = await bcrypt.compare(password, admin.password);
     if (!isPasswordMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Store admin session
+    // Store admin data in session
     req.session.user = {
       id: admin._id,
       username: admin.username,
+      email: admin.email,
       role: admin.role,
     };
 
     res.status(200).json({ message: 'Login successful', admin: req.session.user });
   } catch (err) {
-    console.error(err);
+    console.error('Error during admin login:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -564,6 +566,27 @@ app.get('/checkLogin', (req, res) => {
     res.status(200).json({ loggedIn: false });
   }
 });
+
+
+// Update session route to include user role
+app.get('/api/session', (req, res) => {
+  if (req.session.user) {
+    res.status(200).json({
+      loggedIn: true,
+      user: {
+        _id: req.session.user._id,
+        username: req.session.user.username,
+        email: req.session.user.email,
+        role: req.session.user.role, // Include role
+      },
+    });
+  } else {
+    res.status(200).json({ loggedIn: false });
+  }
+});
+
+
+
 
 // Start the server
 const port = 5000;

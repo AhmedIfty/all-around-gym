@@ -1,25 +1,27 @@
 import { useState, useEffect } from "react";
-import axios from "axios"; // Import axios to make HTTP requests
+import axios from "axios";
 import "./listPage.scss";
 import Filter from "../../Components/filter/Filter";
 import Card2 from "../../Components/card2/Card2";
 import Map from "../../Components/map/Map";
 import SearchBar from "../../Components/search/searchBar";
+import GymModal from "../../Components/gymModal/gymModal"; // Import GymModal
+
 function ListPage() {
-  // Define state for storing gym data
   const [gyms, setGyms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isGymModalOpen, setIsGymModalOpen] = useState(false);
 
-  // Fetch gym data from the backend when the component mounts or filters change
   useEffect(() => {
     const fetchGyms = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/gyms", {
-          params: filters, // Pass filters as query parameters to the backend
+          params: filters,
         });
-        setGyms(response.data); // Set the gym data to the state
+        setGyms(response.data);
       } catch (err) {
         setError("Error fetching gym data");
       } finally {
@@ -27,10 +29,23 @@ function ListPage() {
       }
     };
 
-    fetchGyms();
-  }, [filters]); // Refetch gyms whenever filters change
+    const checkSession = async () => {
+      try {
+        const sessionResponse = await axios.get("http://localhost:5000/api/session", {
+          withCredentials: true, // Include cookies
+        });
+        if (sessionResponse.data.loggedIn && sessionResponse.data.user.role === "admin") {
+          setIsAdmin(true);
+        }
+      } catch (err) {
+        console.error("Error fetching session data:", err);
+      }
+    };
 
-  // Handle loading and error states
+    fetchGyms();
+    checkSession();
+  }, [filters]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -39,32 +54,76 @@ function ListPage() {
     return <div>{error}</div>;
   }
 
-  // Handle filter change from Filter component
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters); // Update the filter state
+    setFilters(newFilters);
   };
+
+  const handleOpenGymModal = () => {
+    setIsGymModalOpen(true);
+  };
+
+  const handleCloseGymModal = () => {
+    setIsGymModalOpen(false);
+  };
+
+  const handleGymSubmit = async (gymData) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/gyms", gymData, {
+        withCredentials: true,
+      });
+      console.log("Gym added:", response.data);
+
+      setGyms((prevGyms) => [...prevGyms, response.data]);
+    } catch (error) {
+      console.error("Error adding gym:", error);
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="listPage">
       <div className="listContainer">
         <div className="searchbar">
-          <SearchBar/>
+          <SearchBar />
         </div>
+        
         <div className="wrapper">
           <Filter onFilterChange={handleFilterChange} />
           {gyms.map((gym) => (
-            <Card2 key={gym._id} item={gym} selectedSubscriptionType={filters.subscriptionType} /> // Pass selected subscription type to Card2 component
+            <Card2
+              key={gym._id}
+              item={gym}
+              selectedSubscriptionType={filters.subscriptionType}
+            />
           ))}
         </div>
+
+        {/* Add Gym button for admins */}
+        {isAdmin && (
+          <div className="addGymContainer">
+            <button className="addGymButton" onClick={handleOpenGymModal}>
+              Add Gym
+            </button>
+          </div>
+        )}
       </div>
       <div className="mapContainer">
         <Map items={gyms} />
       </div>
+
+      <GymModal
+        isOpen={isGymModalOpen}
+        onClose={handleCloseGymModal}
+        onSubmit={handleGymSubmit}
+      />
     </div>
   );
 }
 
 export default ListPage;
+
 
 
 
