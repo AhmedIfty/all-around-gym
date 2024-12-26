@@ -72,12 +72,14 @@ function ListPage() {
         withCredentials: true,
       });
       console.log("Gym added:", response.data);
-
+  
+      // Add the new gym to the state
       setGyms((prevGyms) => [...prevGyms, response.data]);
     } catch (error) {
       console.error("Error adding gym:", error);
     }
   };
+  
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;

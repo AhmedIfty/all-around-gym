@@ -564,6 +564,7 @@ app.get('/api/gyms/:id', async (req, res) => {
     res.status(500).json({ message: 'Error fetching gym details' });
   }
 });
+
 // Backend Route to TO GET SUBSCRIPTION TYPE Gym
 app.get('/api/gyms', async (req, res) => {
   try {
@@ -587,6 +588,41 @@ app.get('/api/gyms', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.post('/api/gyms', async (req, res) => {
+  try {
+    const { gymName, location, description, planType, subscriptionFee, gymImage } = req.body;
+
+    // Validate required fields
+    if (!gymName || !location || !planType || !subscriptionFee) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Generate a unique ID for the gym
+    const lastGym = await GymModel.findOne().sort({ gymId: -1 });
+    const newGymId = lastGym ? lastGym.gymId + 1 : 1;
+
+    // Create a new gym instance
+    const newGym = new GymModel({
+      gymId: newGymId,
+      name: gymName,
+      location,
+      description,
+      planType,
+      subscriptionFee,
+      gymImage,
+    });
+
+    // Save to the database
+    const savedGym = await newGym.save();
+
+    res.status(201).json(savedGym); // Return the created gym
+  } catch (error) {
+    console.error("Error adding gym:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 // Check login status
 app.get('/checkLogin', (req, res) => {
