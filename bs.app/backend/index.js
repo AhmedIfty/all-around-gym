@@ -333,6 +333,7 @@ app.get('/api/forum', async (req, res) => {
       user.forumPosts.map(post => ({
         username: user.username,
         content: post.content,
+        category: post.category, // Include category
         createdAt: post.createdAt
       }))
     ).sort((a, b) => b.createdAt - a.createdAt);
@@ -345,10 +346,10 @@ app.get('/api/forum', async (req, res) => {
 
 // API to create a new forum post
 app.post('/api/forum', async (req, res) => {
-  const { username, content } = req.body;
+  const { username, content, category } = req.body;
 
-  if (!username || !content) {
-    return res.status(400).json({ message: 'Username and content are required' });
+  if (!username || !content || !category) {
+    return res.status(400).json({ message: 'Username, content, and category are required' });
   }
 
   try {
@@ -360,6 +361,7 @@ app.post('/api/forum', async (req, res) => {
 
     const newPost = {
       content,
+      category, // Include category
       createdAt: new Date(),
     };
 

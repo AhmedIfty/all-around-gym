@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Forum from '../../Components/forum/forum';
 import './forumroute.scss';
 
 const ForumRoute = () => {
+    const [selectedCategory, setSelectedCategory] = useState('');
+
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+    };
+
     return (
         <div className="forum-layout">
             <div className="sidebar">
                 <h2>Categories</h2>
                 <ul>
-                    <li>Workouts</li>
-                    <li>Nutrition</li>
-                    <li>Gym</li>
-                    <li>General Discussions</li>
+                    <li onClick={() => handleCategoryClick('Workouts')}>Workouts</li>
+                    <li onClick={() => handleCategoryClick('Nutrition')}>Nutrition</li>
+                    <li onClick={() => handleCategoryClick('Gym')}>Gym</li>
+                    <li onClick={() => handleCategoryClick('General Discussions')}>General Discussions</li>
                 </ul>
             </div>
             <div className="main-content">
-                <Forum />
+                <Forum selectedCategory={selectedCategory} />
             </div>
             <div className="sidebar">
                 <h2>Popular Posts</h2>
