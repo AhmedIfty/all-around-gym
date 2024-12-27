@@ -4,7 +4,7 @@ import axios from 'axios';
 import './forumroute.scss';
 
 const ForumRoute = () => {
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('Workouts'); // Default category set to "Workouts"
     const [popularPosts, setPopularPosts] = useState([]);
 
     const handleCategoryClick = (category) => {

@@ -5,7 +5,7 @@ import './forum.scss';
 const Forum = ({ selectedCategory }) => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Workouts'); // Default category set to "Workouts"
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
@@ -50,7 +50,8 @@ const Forum = ({ selectedCategory }) => {
       });
       setPosts([response.data, ...posts]);
       setNewPost('');
-      setCategory('');
+      setCategory('Workouts'); // Reset to default category
+      window.location.reload(); // Reload the page after successful post submission
     } catch (error) {
       console.error('Error posting new message:', error);
     }
@@ -59,7 +60,7 @@ const Forum = ({ selectedCategory }) => {
   const handleLike = async (postId) => {
     try {
       const response = await axios.post('http://localhost:5000/api/forum/like', { postId, username });
-      setPosts(posts.map(post => post._id === postId ? { ...post, likes: response.data.likes } : post));
+      setPosts(posts.map(post => post._id === postId ? { ...post, likes: response.data.likes, likedBy: [...post.likedBy, username] } : post));
       setError('');
     } catch (error) {
       setError('You have already liked this post.');
@@ -67,7 +68,7 @@ const Forum = ({ selectedCategory }) => {
     }
   };
 
-  const filteredPosts = selectedCategory && selectedCategory !== 'General Discussions'
+  const filteredPosts = selectedCategory && selectedCategory !== 'Workouts'
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
 
@@ -94,7 +95,13 @@ const Forum = ({ selectedCategory }) => {
             <p>{post.content}</p>
             <span>Category: {post.category}</span>
             <span>Posted by {post.username} on {new Date(post.createdAt).toLocaleString()}</span>
-            <button className="like-button" onClick={() => handleLike(post._id)}>Like ({post.likes})</button>
+            <button 
+              className="like-button" 
+              onClick={() => handleLike(post._id)}
+              disabled={post.likedBy.includes(username)} // Disable button if user has already liked the post
+            >
+              Like ({post.likes})
+            </button>
           </div>
         ))}
       </div>
