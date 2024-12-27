@@ -3,6 +3,7 @@ import List from '../../Components/list/List';
 import Bmicalc from '../../Components/Bmi/bmi';
 import Modal from '../../Components/Modal/modal';
 import axios from 'axios';
+import SearchBar from '../../Components/search/searchBar';
 import './Profile.scss';
 
 function ProfilePage() {
@@ -166,6 +167,9 @@ function ProfilePage() {
             <span>
               E-mail: <b>{userData.email}</b>
             </span>
+            <span>
+              Personal trainer: <a href='/trainerprofile'>Lemon</a>
+            </span>
           </div>
 
           <div className="title">
@@ -206,6 +210,9 @@ function ProfilePage() {
         <Bmicalc />
         <div className="partnerRecommendations">
           <h2>Partner Recommendations</h2>
+          <div className="search_bar">
+              <SearchBar />
+          </div>
           {recommendations.length > 0 ? (
             recommendations.map((recommendation, index) => (
               <div key={index} className="recommendationCard">

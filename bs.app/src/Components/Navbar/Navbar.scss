@@ -36,7 +36,7 @@ nav {
         }
   
         img {
-          width: 28px;
+          width: 70px;
         }
   
         span {
@@ -73,8 +73,9 @@ nav {
           transition: all 0.3s ease;
   
           &:hover {
-            background-color: #000000;
-            color: #fff;
+            background-color: rgb(196, 231, 195);
+            color: #000000;
+            scale: 1.05;
           }
         }
       }

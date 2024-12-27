@@ -39,7 +39,7 @@ const ForumRoute = () => {
             <div className="main-content">
                 <Forum selectedCategory={selectedCategory} />
             </div>
-            <div className="sidebar">
+            <div className="sidebar2">
                 <h2>Popular Posts</h2>
                 <ul>
                     {popularPosts.map((post, index) => (

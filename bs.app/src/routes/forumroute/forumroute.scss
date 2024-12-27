@@ -53,5 +53,42 @@
             }
         }
     }
+    .sidebar2 {
+        flex: 1;
+        background-color: #f4f8f5;
+        border: 1px solid #c4e7c3;
+        border-radius: 10px;
+        height: 40%;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 6%;
+
+        h2 {
+            font-size: 18px;
+            color: #2a623d;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                padding: 8px 0;
+                font-size: 14px;
+                color: #555;
+                border-bottom: 1px solid #c4e7c3;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    color: #2a623d;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 

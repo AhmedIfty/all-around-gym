@@ -42,6 +42,10 @@
           display: flex;
           align-items: center;
           gap: 20px;
+
+          a{
+            font-weight: bold;
+          }
         }
 
         img {
@@ -138,6 +142,10 @@
     h2 {
       font-weight: 400;
       margin-bottom: 10px;
+    }
+    .search_bar{
+      width: 50%;
+      margin-bottom: 2%;
     }
 
     .recommendationCard {

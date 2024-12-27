@@ -67,8 +67,8 @@ const Navbar = () => {
     <nav className={scrolled ? 'scrolled' : ''}>
       <div className="left">
         <a href="/" className="logo">
-          <img src="/logo.png" alt="Logo" />
-          <span>BS Services</span>
+          <img src="/logo10.png" alt="Logo" />
+          <span>All Around Gym</span>
         </a>
       </div>
 
@@ -78,12 +78,9 @@ const Navbar = () => {
             <div className="gymlist">
               <a href="/list">Gym List</a>
             </div>
-            {/* <div className="forum">
+            <div className="forum">
               <a href="/forumroute">Forum</a>
             </div>
-            <div className="search">
-              <Link to="/searchtest">Search</Link>
-            </div> */}
             <div
               className="user"
               onMouseEnter={() => setShowDropdown(true)}
