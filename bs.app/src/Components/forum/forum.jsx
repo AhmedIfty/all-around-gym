@@ -55,7 +55,16 @@ const Forum = ({ selectedCategory }) => {
     }
   };
 
-  const filteredPosts = selectedCategory && selectedCategory !== 'All'
+  const handleLike = async (postId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/forum/like', { postId, username });
+      setPosts(posts.map(post => post._id === postId ? { ...post, likes: response.data.likes } : post));
+    } catch (error) {
+      console.error('Error liking post:', error);
+    }
+  };
+
+  const filteredPosts = selectedCategory && selectedCategory !== 'General Discussions'
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
 
@@ -81,6 +90,7 @@ const Forum = ({ selectedCategory }) => {
             <p>{post.content}</p>
             <span>Category: {post.category}</span>
             <span>Posted by {post.username} on {new Date(post.createdAt).toLocaleString()}</span>
+            <button className="like-button" onClick={() => handleLike(post._id)}>Like ({post.likes})</button>
           </div>
         ))}
       </div>

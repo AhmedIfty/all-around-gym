@@ -80,8 +80,9 @@ const UserSchema = new mongoose.Schema({
   forumPosts: [
     {
       content: { type: String, required: true },
+      likes: { type: Number, default: 0 },
       category: { type: String, required: true },
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date, default: Date.now },     
     },
   ],
   workoutTimes: [

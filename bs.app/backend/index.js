@@ -325,16 +325,49 @@ app.post('/register', async (req, res) => {
   }
 });
 
+app.post('/api/forum/like', async (req, res) => {
+  const { postId, username } = req.body;
+
+  if (!postId || !username) {
+    return res.status(400).json({ message: 'Post ID and username are required' });
+  }
+
+  try {
+    const user = await UserModel.findOne({ 'forumPosts._id': postId });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const post = user.forumPosts.id(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found within user' });
+    }
+
+    post.likes += 1;
+
+    await user.save();
+
+    res.status(200).json({ message: 'Post liked successfully', likes: post.likes });
+  } catch (error) {
+    console.error('Error liking post:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // API to fetch forum posts
 app.get('/api/forum', async (req, res) => {
   try {
     const users = await UserModel.find({}, 'username forumPosts');
     const posts = users.flatMap(user => 
       user.forumPosts.map(post => ({
+        _id: post._id,
         username: user.username,
         content: post.content,
-        category: post.category, // Include category
-        createdAt: post.createdAt
+        category: post.category,
+        createdAt: post.createdAt,
+        likes: post.likes
       }))
     ).sort((a, b) => b.createdAt - a.createdAt);
     res.json(posts);
