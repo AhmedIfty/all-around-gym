@@ -82,7 +82,8 @@ const UserSchema = new mongoose.Schema({
       content: { type: String, required: true },
       likes: { type: Number, default: 0 },
       category: { type: String, required: true },
-      createdAt: { type: Date, default: Date.now },     
+      createdAt: { type: Date, default: Date.now },
+      likedBy: [{ type: String }]     
     },
   ],
   workoutTimes: [

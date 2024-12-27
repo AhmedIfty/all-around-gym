@@ -345,7 +345,12 @@ app.post('/api/forum/like', async (req, res) => {
       return res.status(404).json({ message: 'Post not found within user' });
     }
 
+    if (post.likedBy.includes(username)) {
+      return res.status(400).json({ message: 'User has already liked this post' });
+    }
+
     post.likes += 1;
+    post.likedBy.push(username);
 
     await user.save();
 
@@ -367,7 +372,8 @@ app.get('/api/forum', async (req, res) => {
         content: post.content,
         category: post.category,
         createdAt: post.createdAt,
-        likes: post.likes
+        likes: post.likes,
+        likedBy: post.likedBy // Include likedBy field
       }))
     ).sort((a, b) => b.createdAt - a.createdAt);
     res.json(posts);
@@ -394,8 +400,10 @@ app.post('/api/forum', async (req, res) => {
 
     const newPost = {
       content,
-      category, // Include category
+      category,
       createdAt: new Date(),
+      likes: 0,
+      likedBy: []
     };
 
     user.forumPosts.push(newPost);

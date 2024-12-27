@@ -7,6 +7,7 @@ const Forum = ({ selectedCategory }) => {
   const [newPost, setNewPost] = useState('');
   const [category, setCategory] = useState('');
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -59,7 +60,9 @@ const Forum = ({ selectedCategory }) => {
     try {
       const response = await axios.post('http://localhost:5000/api/forum/like', { postId, username });
       setPosts(posts.map(post => post._id === postId ? { ...post, likes: response.data.likes } : post));
+      setError('');
     } catch (error) {
+      setError('You have already liked this post.');
       console.error('Error liking post:', error);
     }
   };
@@ -71,6 +74,7 @@ const Forum = ({ selectedCategory }) => {
   return (
     <div className="forum-page">
       <h1>Fitness Forum</h1>
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handlePostSubmit} className="new-post-form">
         <textarea
           value={newPost}
