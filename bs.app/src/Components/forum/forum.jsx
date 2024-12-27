@@ -55,7 +55,7 @@ const Forum = ({ selectedCategory }) => {
     }
   };
 
-  const filteredPosts = selectedCategory
+  const filteredPosts = selectedCategory && selectedCategory !== 'All'
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
 
@@ -69,11 +69,9 @@ const Forum = ({ selectedCategory }) => {
           placeholder="Share your fitness tips and experiences..."
         />
         <select value={category} onChange={handleCategoryChange}>
-          <option value="">Select Category</option>
           <option value="Workouts">Workouts</option>
           <option value="Nutrition">Nutrition</option>
           <option value="Gym">Gym</option>
-          <option value="General Discussions">General Discussions</option>
         </select>
         <button type="submit">Post</button>
       </form>

@@ -14,10 +14,11 @@ const ForumRoute = () => {
             <div className="sidebar">
                 <h2>Categories</h2>
                 <ul>
+                    <li onClick={() => handleCategoryClick('')}>All</li>
                     <li onClick={() => handleCategoryClick('Workouts')}>Workouts</li>
                     <li onClick={() => handleCategoryClick('Nutrition')}>Nutrition</li>
                     <li onClick={() => handleCategoryClick('Gym')}>Gym</li>
-                    <li onClick={() => handleCategoryClick('General Discussions')}>General Discussions</li>
+    
                 </ul>
             </div>
             <div className="main-content">
