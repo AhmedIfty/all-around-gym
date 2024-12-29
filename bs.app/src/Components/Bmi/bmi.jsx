@@ -29,19 +29,29 @@ const Bmicalc = () => {
         } else if (bmiValue < 18.5) {
             text = "Patlu";
         } else if (bmiValue >= 18.5 && bmiValue < 25) {
-            text = "Basic Bitch";
+            text = "Basic";
         } else if (bmiValue >= 25 && bmiValue < 30) {
             text = "Fluffy";
         } else {
-            text = "Dmmm";
+            text = "Damn U Big";
         }
         setMessage(text);
     };
 
     const handleButtonClick = () => {
-        navigate("/diet-plans");
+        let fitnessGoal = "weight_loss"; 
+    
+        if (message === "Patlu") {
+            fitnessGoal = "weight_gain";
+        } else if (message === "Basic") {
+            fitnessGoal = "strength_training";
+        } else if (["Fluffy", "Damn U Big", "No hope"].includes(message)) {
+            fitnessGoal = "weight_loss";
+        }
+    
+        navigate(`/diet-plans?goal=${fitnessGoal}`);
     };
-
+    
     return (
         <div className="card1">
             <h2>BMI Calculator</h2>
