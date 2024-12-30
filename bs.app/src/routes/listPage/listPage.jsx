@@ -111,9 +111,9 @@ function ListPage() {
           </div>
         )}
       </div>
-      {/* <div className="mapContainer">
+      <div className="mapContainer">
         <Map items={gyms} />
-      </div> */}
+      </div>
 
       <GymModal
         isOpen={isGymModalOpen}

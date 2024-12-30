@@ -17,6 +17,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
     
     onSubmit(formData); // Pass data back to the parent component
     onClose(); // Close the modal after submit
+    window.location.reload();
   };
 
   if (!isOpen) return null; // Do not render the modal if not open
