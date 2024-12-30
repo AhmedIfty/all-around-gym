@@ -1,4 +1,4 @@
-.profilePage {
+.profilePage1 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,15 +6,15 @@
   max-width: 1200px;
   padding: 20px;
 
-  .details {
+  .details1 {
     width: 100%;
 
-    .wrapper {
+    .wrapper1 {
       display: flex;
       flex-direction: column;
       gap: 50px;
 
-      .title {
+      .title1 {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -37,13 +37,13 @@
         }
       }
 
-      .info {
+      .info1 {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 40px;
 
-        .bio {
+        .bio1 {
           flex: 1;
           display: flex;
           flex-direction: column;
@@ -82,15 +82,15 @@
           }
         }
 
-        .avatar {
+        .avatar1 {
           flex: 0 0 500px; /* Fixed size for avatar */
           display: flex;
           justify-content: center;
           align-items: center;
 
           img {
-            width: 500px;
-            height: 500px;
+            width: 300px;
+            height: 300px;
             border-radius: 5px;
             object-fit: cover;
           }
@@ -99,19 +99,19 @@
     }
   }
 
-  .specialization-title {
+  .specialization-title1 {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
   }
 
-  .specialization {
+  .specialization1 {
     display: flex;
     gap: 20px;
     justify-content: space-evenly;
 
-    .card {
+    .card1 {
       flex: 1;
       background: #f9f9f9;
       border: 1px solid #ddd;
@@ -119,7 +119,7 @@
       text-align: center;
       padding: 20px;
 
-      .icon {
+      .icon1 {
         font-size: 30px;
         margin-bottom: 10px;
       }

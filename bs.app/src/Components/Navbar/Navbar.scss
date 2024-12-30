@@ -164,7 +164,7 @@ nav {
                   color: inherit;
 
                   &:hover {
-                      color: rgb(34, 193, 195);
+                      scale: 1.05;
                   }
               }
           }
@@ -177,7 +177,7 @@ nav {
               transition: all 0.4s ease;
 
               &:hover {
-                  background-color: rgb(34, 193, 195);
+                scale: 1.05;
               }
           }
       }

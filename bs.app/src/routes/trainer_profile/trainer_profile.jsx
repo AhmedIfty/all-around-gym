@@ -3,18 +3,18 @@ import './trainer_profile.scss';
 
 const TrainerProfile = () => {
   return (
-    <div className="profilePage">
-      <div className="details">
-        <div className="wrapper">
-          <div className="title">
+    <div className="profilePage1">
+      <div className="details1">
+        <div className="wrapper1">
+          <div className="title1">
             <h1>User Information</h1>
             <button>
               <a href="/ProfileUpdatePage">Update Profile</a>
             </button>
           </div>
-          <div className="info">
+          <div className="info1">
             {/* Bio Section */}
-            <div className="bio">
+            <div className="bio1">
               <h1>Hi I'm Lemon</h1>
               <div>
                 <h2>About Me</h2>
@@ -31,7 +31,7 @@ const TrainerProfile = () => {
               </span>
             </div>
 
-            <div className="avatar">
+            <div className="avatar1">
               <img
                 src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="User Avatar"
@@ -42,20 +42,20 @@ const TrainerProfile = () => {
       </div>
 
       {/* Specialization Section */}
-      <h1 className="specialization-title">Exercises I Specialize In</h1>
-      <div className="specialization">
-        <div className="card">
-          <div className="icon">🏋️</div>
+      <h1 className="specialization-title1">Exercises I Specialize In</h1>
+      <div className="specialization1">
+        <div className="card1">
+          <div className="icon1">🏋️</div>
           <h3>Weightlifting</h3>
           <p>Specializes in strength and power training.</p>
         </div>
-        <div className="card">
-          <div className="icon">🧘</div>
+        <div className="card1">
+          <div className="icon1">🧘</div>
           <h3>Yoga</h3>
           <p>Expert in flexibility and mindfulness techniques.</p>
         </div>
-        <div className="card">
-          <div className="icon">🏃</div>
+        <div className="card1">
+          <div className="icon1">🏃</div>
           <h3>Cardio</h3>
           <p>Focused on endurance and heart health exercises.</p>
         </div>

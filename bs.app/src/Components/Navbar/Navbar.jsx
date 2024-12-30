@@ -58,8 +58,8 @@ const Navbar = () => {
         <nav className={scrolled ? 'scrolled' : ''}>
             <div className='left'>
                 <a href="/" className="logo">
-                    <img src="/logo.png" alt="" />
-                    <span>BS Services</span>
+                    <img src="/logo2.png" alt="" />
+                    <span>All Around Gym</span>
                 </a>
             </div>
 

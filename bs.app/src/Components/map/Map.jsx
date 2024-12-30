@@ -14,6 +14,16 @@ function Map(){
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
+        <Marker position={[23.797911, 90.414391]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+        <Marker position={[23.746466, 90.376015]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
       </MapContainer>
     )
 }
