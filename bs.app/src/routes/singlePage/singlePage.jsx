@@ -4,6 +4,10 @@ import "./singlePage.scss";
 import Slider from "../../Components/slider/slider";
 import Map from "../../Components/map/Map";
 
+import redMarkerIcon from '../../Assects/red-marker.png';
+import checkMarkerIcon from '../../Assects/checkMark.png';
+
+
 function SinglePage() {
   const { id } = useParams(); // Extract gym ID from the URL
   const [gym, setGym] = useState(null);
@@ -51,7 +55,7 @@ function SinglePage() {
               <div className="post">
                 <h1>{gym.name}</h1>
                 <div className="address">
-                  <img src="/pin.png" alt="Location" />
+                <img src={redMarkerIcon} alt="Location" />
                   <span>{gym.location}</span>
                 </div>
                 <div className="price">$ {gym.subscriptionFee}</div>
@@ -67,7 +71,7 @@ function SinglePage() {
           <div className="listVertical">
             {gym.facilities.map((facility, index) => (
               <div className="feature" key={index}>
-                <img src="/utility.png" alt="Facility" />
+                <img src={checkMarkerIcon} alt="Location" />                
                 <div className="featureText">
                   <span>{facility}</span>
                 </div>
@@ -76,7 +80,8 @@ function SinglePage() {
           </div>
           <p className="title">Location</p>
           <div className="mapContainer">
-            <Map items={[gym]} />
+            {/* <Map items={[gym]} /> */}
+            <Map items={[gym]} coordinates={gym.coordinates} />
           </div>
         </div>
       </div>
