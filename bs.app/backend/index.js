@@ -122,28 +122,70 @@ app.delete('/api/workouts/:workoutId', async (req, res) => {
   }
 });
 
+
+app.put('/updateExercise', async (req, res) => {
+  try {
+    const { exerciseId, sets, reps } = req.body;
+
+    // Ensure the user is logged in
+    const userId = req.session.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+
+    // Find the user and update the exercise
+    const user = await UserModel.findOneAndUpdate(
+      { _id: userId, "exercises.exerciseId": exerciseId },
+      {
+        $set: {
+          "exercises.$.sets": sets,
+          "exercises.$.reps": reps,
+        },
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'Exercise not found or user not authorized' });
+    }
+
+    res.status(200).json({ message: 'Exercise updated successfully', exercises: user.exercises });
+  } catch (error) {
+    console.error('Error updating exercise:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // DELETE exercise by ID
 app.delete('/exercises/:exerciseId', async (req, res) => {
   try {
     const { exerciseId } = req.params;
-    const user = await UserModel.findOne({ _id: req.session.userId });
+
+    // Ensure the user is logged in
+    const userId = req.session.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
+
+    // Find the user and remove the exercise
+    const user = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { exercises: { exerciseId: Number(exerciseId) } } }, // Remove exercise
+      { new: true } // Return the updated document
+    );
+
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).json({ message: 'Exercise not found or user not authorized' });
     }
 
-    const exerciseIndex = user.exercises.findIndex(ex => ex.exerciseId.toString() === exerciseId);
-    if (exerciseIndex === -1) {
-      return res.status(404).send('Exercise not found');
-    }
-
-    user.exercises.splice(exerciseIndex, 1);
-    await user.save();
-
-    res.send('Exercise deleted');
+    res.status(200).json({ message: 'Exercise deleted successfully', exercises: user.exercises });
   } catch (error) {
-    res.status(500).send(error.message);
+    console.error('Error deleting exercise:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 // API endpoint for user login

@@ -3,19 +3,12 @@ import { Link } from "react-router-dom";
 import "./card.scss";
 
 
-const Card = ({ item, deleteExercise  }) => {
+const Card = ({ item, deleteExercise }) => {
   const [counter, setCounter] = useState(item.sets || 0);
   const [inputValue, setInputValue] = useState(item.reps || 0);
 
-  const handleIncrease = () => {
-    setCounter(counter + 1);
-  };
-
-  const handleDecrease = () => {
-    if (counter > 0) {
-      setCounter(counter - 1);
-    }
-  };
+  const handleIncrease = () => setCounter(counter + 1);
+  const handleDecrease = () => counter > 0 && setCounter(counter - 1);
 
   const handleSave = async () => {
     try {
@@ -30,7 +23,9 @@ const Card = ({ item, deleteExercise  }) => {
         }),
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        console.log('Exercise updated successfully');
+      } else {
         console.error('Failed to update exercise');
       }
     } catch (error) {
@@ -41,12 +36,15 @@ const Card = ({ item, deleteExercise  }) => {
   return (
     <div className="card">
       <div className="imageContainer">
-        <img src={item.exerciseImage} alt={item.exerciseName} />
+        <img src={item.exerciseImage  || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMRA3V1FYSEcmJMcQXmi9XgJXyRGYVh70o0Q&s"} 
+        alt={item.exerciseName || "Exercise Image"} />
       </div>
       <div className="textContainer">
         <h2 className="title">{item.exerciseName}</h2>
         <div className="Middle">
-          <button className="deleteButton" onClick={() => deleteExercise(item.exerciseId)}>X</button>
+          <button className="deleteButton" onClick={() => deleteExercise(item.exerciseId)}>
+            X
+          </button>
         </div>
         <div className="bottom">
           <div className="counterWithButtons">
@@ -64,24 +62,25 @@ const Card = ({ item, deleteExercise  }) => {
           </div>
           <div className="counter">
             <input
-                type="number"
-                value={inputValue}
-                onChange={(e) => setInputValue(Number(e.target.value))}
-                min="0"
-                className="inputCounter"
+              type="number"
+              value={inputValue}
+              onChange={(e) => setInputValue(Number(e.target.value))}
+              min="0"
+              className="inputCounter"
             />
-            <span className="counterLebel" >Reps</span>
-            <button className="counterButton" onClick={handleSave}>✓</button>
+            <span className="counterLabel">Reps</span>
+            <button className="counterButton" onClick={handleSave}>
+              ✓
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
-  
-  
-}
+};
 
 export default Card;
+
 
 
 
