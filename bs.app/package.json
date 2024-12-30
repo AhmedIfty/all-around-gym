@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "react-stripe-js": "^1.1.5",
     "sass": "^1.77.5",
+    "string-similarity": "^4.0.4",
     "stripe": "^17.5.0",
     "web-vitals": "^2.1.4"
   },
@@ -50,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from "react-router-dom";
 import './DietPlans.scss';
 
 const dietPlansData = {
@@ -48,6 +49,14 @@ const workoutsData = {
 
 const DietPlans = () => {
   const [fitnessGoal, setFitnessGoal] = useState('weight_loss');
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const goalFromParams = searchParams.get('goal');
+    if (goalFromParams) {
+      setFitnessGoal(goalFromParams);
+    }
+  }, [searchParams]);
 
   const handleGoalChange = (e) => {
     setFitnessGoal(e.target.value);
@@ -56,14 +65,14 @@ const DietPlans = () => {
   return (
     <div className="diet-plans-page">
       <h1>Diet Plans, Recipes, and Workouts</h1>
-      <div className="goal-selector">
+      {/* <div className="goal-selector">
         <label htmlFor="fitnessGoal">Select Fitness Goal:</label>
         <select id="fitnessGoal" value={fitnessGoal} onChange={handleGoalChange}>
           <option value="weight_loss">Weight Loss</option>
           <option value="weight_gain">Weight Gain</option>
           <option value="strength_training">Strength Training</option>
         </select>
-      </div>
+      </div> */}
       <div className="diet-plans">
         <h2>Diet Plans</h2>
         {dietPlansData[fitnessGoal].map((plan, index) => (

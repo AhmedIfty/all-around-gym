@@ -1,5 +1,5 @@
 .services{
-    margin: 80px auto;
+    // margin: 30px;
     width: 90%;
     display: flex;
     align-items: center;
@@ -8,6 +8,7 @@
     padding-right: 10%;
 
     .service{
+        margin-top: 5%;
         flex-basis: 31%;
         position: relative;
         background: rgb(196, 231, 195);

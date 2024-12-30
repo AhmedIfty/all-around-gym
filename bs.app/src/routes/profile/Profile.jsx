@@ -1,27 +1,32 @@
-//import React from 'react';
 import React, { useEffect, useState } from 'react';
 import List from '../../Components/list/List';
-import Map from '../../Components/map/Map';
 import Bmicalc from '../../Components/Bmi/bmi';
 import Modal from '../../Components/Modal/modal';
-
+import axios from 'axios';
+import SearchBar from '../../Components/search/searchBar';
 import './Profile.scss';
+
 function ProfilePage() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
+  const [workoutTime, setWorkoutTime] = useState('');
+  const [scheduledWorkouts, setScheduledWorkouts] = useState([]);
 
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await fetch('http://localhost:5000/profile', {
           method: 'GET',
-          credentials: 'include' // Include cookies to access the session
+          credentials: 'include',
         });
 
         if (response.ok) {
           const data = await response.json();
-          setUserData(data);  // Set user data in state
+          setUserData(data);
+          setScheduledWorkouts(data.workoutTimes || []);
         } else {
           setError("Failed to fetch user data. Please log in.");
         }
@@ -33,15 +38,28 @@ function ProfilePage() {
     fetchUserData();
   }, []);
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+  // Fetch partner recommendations
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/matching-exercises', {
+          method: 'GET',
+          credentials: 'include',
+        });
 
-  if (!userData) {
-    return <div>Loading...</div>;  // Show loading state while fetching data
-  }
+        if (response.ok) {
+          const data = await response.json();
+          setRecommendations(data);
+        } else {
+          console.error('Failed to fetch recommendations');
+        }
+      } catch (err) {
+        console.error('Error fetching recommendations:', err);
+      }
+    };
 
-  
+    fetchRecommendations();
+  }, []);
 
   const handleCreateNewPostClick = () => {
     setIsModalOpen(true);
@@ -52,23 +70,19 @@ function ProfilePage() {
   };
 
   const handleFormSubmit = async (formData) => {
-    console.log('Submitting form data:', formData);
     try {
       const response = await fetch('http://localhost:5000/addExercise', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Include cookies to send session info
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const result = await response.json();
         console.log('Exercise added:', result.message);
-  
-        // // Optionally, refetch the user's exercises to update the UI
-        // fetchUserData();
       } else {
         console.error('Failed to add exercise');
       }
@@ -76,12 +90,60 @@ function ProfilePage() {
       console.error('Error submitting exercise:', error);
     }
   };
-  
 
-  // const handleFormSubmit = (formData) => {
-  //   // Handle the form data (e.g., send it to the backend or update state)
-  //   console.log('Form Submitted', formData);
-  // };
+  const handleDeleteWorkout = async (workoutId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/workouts/${workoutId}`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        setScheduledWorkouts(scheduledWorkouts.filter(workout => workout._id !== workoutId));
+        alert('Workout deleted successfully.');
+      } else {
+        console.error('Failed to delete workout');
+      }
+    } catch (error) {
+      console.error('Error deleting workout:', error);
+    }
+  };
+
+  const handleWorkoutSubmit = async () => {
+    if (!workoutTime) {
+      alert('Please enter a valid workout time.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/add-workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ time: workoutTime }),
+      });
+
+      if (response.ok) {
+        const updatedUserData = await response.json();
+        setScheduledWorkouts(updatedUserData.workoutTimes);
+        setWorkoutTime('');
+        alert('Workout time added successfully.');
+      } else {
+        alert('Failed to add workout time.');
+      }
+    } catch (error) {
+      console.error('Error adding workout time:', error);
+    }
+  };
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profilePage">
@@ -105,8 +167,38 @@ function ProfilePage() {
             <span>
               E-mail: <b>{userData.email}</b>
             </span>
+            <span>
+              Personal trainer: <a href='/trainerprofile'>Lemon</a>
+            </span>
           </div>
-          
+
+          <div className="title">
+            <h1>Workout Schedule</h1>
+          </div>
+          <div className="workoutInput">
+            <input
+              type="datetime-local"
+              value={workoutTime}
+              onChange={e => setWorkoutTime(e.target.value)}
+            />
+            <button onClick={handleWorkoutSubmit}>Add Workout Time</button>
+          </div>
+          <div className="scheduledWorkouts">
+            <h2>Scheduled Workouts</h2>
+            {scheduledWorkouts.length > 0 ? (
+              <ul>
+                {scheduledWorkouts.map((workout, index) => (
+                  <li key={index}>
+                    {new Date(workout.time).toLocaleString()}
+                    <button onClick={() => handleDeleteWorkout(workout._id)}>Delete</button>
+                    </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No workouts scheduled.</p>
+            )}
+          </div>
+
           <div className="title">
             <h1>Workouts</h1>
             <button onClick={handleCreateNewPostClick}>Add New Workout</button>
@@ -116,6 +208,27 @@ function ProfilePage() {
       </div>
       <div className="mapContainer">
         <Bmicalc />
+        <div className="partnerRecommendations">
+          <h2>Partner Recommendations</h2>
+          <div className="search_bar">
+              <SearchBar />
+          </div>
+          {recommendations.length > 0 ? (
+            recommendations.map((recommendation, index) => (
+              <div key={index} className="recommendationCard">
+                <h3>{recommendation.username}</h3>
+                <p>Matching Exercises:</p>
+                <ul>
+                  {recommendation.matchingExercises.map((exercise, idx) => (
+                    <li key={idx}>{exercise.exerciseName}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <p>No matching exercises found.</p>
+          )}
+        </div>
       </div>
 
       <Modal
@@ -128,20 +241,3 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-
-
-
-
-
-
-
-
-
-
-// const Profile = () => {
-//   return (
-//     <div className='pri'>Profile</div>
-//   )
-// }
-
-// export default Profile

@@ -1,0 +1,94 @@
+.forum-layout {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 100%;
+    
+    background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(196, 231, 195, 0.5),
+    rgba(255, 255, 255, 0.9)
+    );
+
+    .main-content {
+        flex: 3;
+        margin-top: 6%;
+    }
+
+    .sidebar {
+        flex: 1;
+        background-color: #f4f8f5;
+        border: 1px solid #c4e7c3;
+        border-radius: 10px;
+        height: 30%;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 6%;
+
+        h2 {
+            font-size: 18px;
+            color: #2a623d;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                padding: 8px 0;
+                font-size: 14px;
+                color: #555;
+                border-bottom: 1px solid #c4e7c3;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    color: #2a623d;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .sidebar2 {
+        flex: 1;
+        background-color: #f4f8f5;
+        border: 1px solid #c4e7c3;
+        border-radius: 10px;
+        height: 40%;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 6%;
+
+        h2 {
+            font-size: 18px;
+            color: #2a623d;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                padding: 8px 0;
+                font-size: 14px;
+                color: #555;
+                border-bottom: 1px solid #c4e7c3;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    color: #2a623d;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+

@@ -7,6 +7,9 @@ npm install react-leaflet leaflet
 install this in bs.app
 npm install @stripe/react-stripe-js @stripe/stripe-js
 
+install this in bs.app
+npm install string-similarity
+
 To RUN app:
 
 1. cd to backend directory 

@@ -37,7 +37,6 @@ const SearchBar = () => {
       <form onSubmit={handleSubmit}>
         <div className="filters">
           <div className="item">
-            <label htmlFor="searchTerm">Gym Name</label>
             <input
               type="text"
               id="searchTerm"
