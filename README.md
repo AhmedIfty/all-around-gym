@@ -14,7 +14,7 @@ A full-stack MERN application where users can explore gyms across the country, p
 
 ## Project report link:
 
-https://docs.google.com/document/d/125YbYd1Xr_9pA8R2B7x8WxFs8xYYqUNv/edit?usp=sharing&ouid=114099150090219790967&rtpof=true&sd=true
+https://docs.google.com/document/d/1zNrTBRkhvwy9qQWGKGP6jpyZZNhlU1xb/edit?usp=sharing&ouid=104380583582490857148&rtpof=true&sd=true
 
 ---------------------------------------------------------
 
